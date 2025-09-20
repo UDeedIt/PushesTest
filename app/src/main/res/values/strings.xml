@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">NotificationTestTool</string>
+
+    <string name="app_name">Notification Test Tool</string>
+
+    <string name="btn_send_notification">Send Notification</string>
+
+    <string name="hint_notification_title">Notification Title</string>
+    <string name="hint_notification_body">Notification Text</string>
+
 </resources>
