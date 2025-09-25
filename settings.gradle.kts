@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "NotificationTestTool"
 include(":app")
- 
+include(":anarchist")
