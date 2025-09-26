@@ -1,4 +1,4 @@
-package udeedit.tools.anarchist
+package udeedit.devtools.anarchist
 
 import org.junit.Test
 

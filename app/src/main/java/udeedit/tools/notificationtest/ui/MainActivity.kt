@@ -11,6 +11,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,6 +19,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import udeedit.devtools.anarchist.AnarchistPermissionStatus
+import udeedit.devtools.anarchist.AnarchistPermissionUtils
 import udeedit.tools.notificationtest.R
 import udeedit.tools.notificationtest.databinding.ActivityMainBinding
 import udeedit.tools.notificationtest.utils.CHANNEL_ID
@@ -28,6 +31,9 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
+    private val REQUEST_PERMISSION_CODE = 12
+
+    val requestPermissionList: MutableList<String> = mutableListOf()
     private lateinit var binding: ActivityMainBinding
 
 
@@ -47,6 +53,12 @@ class MainActivity : AppCompatActivity() {
         binding.btnSendNotification.setOnClickListener {
             publishNotification()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initializePermissionList()
+        requestSinglePermission()
     }
 
     private fun createNotificationsChannel() {
@@ -81,6 +93,77 @@ class MainActivity : AppCompatActivity() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             notifManger.notify(NOTIF_ID, notif)
+        }
+    }
+
+    private fun initializePermissionList() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissionList.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    private fun requestSinglePermission() {
+        val permissionResult = AnarchistPermissionUtils.checkAndRequestPermissions(
+                this,
+                requestPermissionList,
+                REQUEST_PERMISSION_CODE
+            )
+
+        when (permissionResult.finalStatus) {
+            AnarchistPermissionStatus.ALLOWED -> {//DO further stuffs as all permissions are allowed by user
+                Toast.makeText(
+                    this,
+                    "Permission is already allowed by user",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            AnarchistPermissionStatus.DENIED_PERMANENTLY -> {
+                //Request user to allow permission by sending to permission list page
+                //You can show customized dialog and then call this function
+                Toast.makeText(this, "Permission is permanently denied by user", Toast.LENGTH_LONG)
+                    .show()
+                AnarchistPermissionUtils.askUserToRequestPermissionExplicitly(this)
+            }
+
+            else -> {
+                //Permission is requesting for first time or user denied permission before but not permanently
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_PERMISSION_CODE) {
+            //Check status after user allowed or denied permission using the same way while requested permission
+            val permissionResult = AnarchistPermissionUtils.checkAndRequestPermissions(
+                    this,
+                    requestPermissionList,
+                    REQUEST_PERMISSION_CODE,
+                    checkStatusOnly = true
+                )
+
+            when (permissionResult.finalStatus) {
+                AnarchistPermissionStatus.ALLOWED -> {//DO further stuffs as all permissions are allowed by user
+                    Toast.makeText(this, "Permission allowed by user", Toast.LENGTH_LONG).show()
+                }
+
+                AnarchistPermissionStatus.DENIED_PERMANENTLY -> {
+                    Toast.makeText(
+                        this,
+                        "Permission is permanently denied by user",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                } else -> {
+                    //Permission denied by user but not permanently
+                }
+            }
         }
     }
 }

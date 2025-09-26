@@ -1,4 +1,4 @@
-package udeedit.tools.anarchist
+package udeedit.devtools.anarchist
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("udeedit.tools.anarchist", appContext.packageName)
+        assertEquals("udeedit.devtools.anarchist.test", appContext.packageName)
     }
 }
