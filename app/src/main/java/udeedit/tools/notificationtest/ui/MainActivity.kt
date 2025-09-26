@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNotificationsChannel() {
-        Log.d(TAG, "createNotificationsChannel")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT).apply {
                 lightColor = Color.BLUE
@@ -110,10 +109,10 @@ class MainActivity : AppCompatActivity() {
             )
 
         when (permissionResult.finalStatus) {
-            AnarchistPermissionStatus.ALLOWED -> {//DO further stuffs as all permissions are allowed by user
+            AnarchistPermissionStatus.ALLOWED -> {
                 Toast.makeText(
                     this,
-                    "Permission is already allowed by user",
+                    getString(R.string.permission_is_already_allowed),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -121,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             AnarchistPermissionStatus.DENIED_PERMANENTLY -> {
                 //Request user to allow permission by sending to permission list page
                 //You can show customized dialog and then call this function
-                Toast.makeText(this, "Permission is permanently denied by user", Toast.LENGTH_LONG)
+                Toast.makeText(this, getString(R.string.permission_is_permanently_denied), Toast.LENGTH_LONG)
                     .show()
                 AnarchistPermissionUtils.askUserToRequestPermissionExplicitly(this)
             }
@@ -150,13 +149,13 @@ class MainActivity : AppCompatActivity() {
 
             when (permissionResult.finalStatus) {
                 AnarchistPermissionStatus.ALLOWED -> {//DO further stuffs as all permissions are allowed by user
-                    Toast.makeText(this, "Permission allowed by user", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.permission_allowed), Toast.LENGTH_LONG).show()
                 }
 
                 AnarchistPermissionStatus.DENIED_PERMANENTLY -> {
                     Toast.makeText(
                         this,
-                        "Permission is permanently denied by user",
+                        getString(R.string.permission_is_permanently_denied),
                         Toast.LENGTH_LONG
                     ).show()
 

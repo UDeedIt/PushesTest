@@ -7,4 +7,9 @@
     <string name="hint_notification_title">Notification Title</string>
     <string name="hint_notification_body">Notification Text</string>
 
+    <!-- Permissions -->
+    <string name="permission_is_already_allowed">Permission is already allowed by user</string>
+    <string name="permission_is_permanently_denied">Permission is permanently denied by user</string>
+    <string name="permission_allowed">Permission allowed by user</string>
+
 </resources>
