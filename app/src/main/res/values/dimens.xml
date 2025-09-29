@@ -2,7 +2,8 @@
 <resources>
 
     <dimen name="edt_margin_hor">32dp</dimen>
-    <dimen name="edt_spacer_vert">8dp</dimen>
-    <dimen name="btn_margin_vert">16dp</dimen>
+    <dimen name="edt_spacer_vert">16dp</dimen>
+    <dimen name="btn_margin_vert">24dp</dimen>
+    <dimen name="btn_corner_radius">6dp</dimen>
 
 </resources>
