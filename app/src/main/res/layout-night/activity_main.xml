@@ -17,7 +17,12 @@
         android:layout_marginVertical="@dimen/edt_spacer_vert"
         app:layout_constraintBottom_toTopOf="@id/edt_notification_body"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:boxCornerRadiusTopStart="@dimen/btn_corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/btn_corner_radius"
+        app:boxCornerRadiusBottomEnd="0dp"
+        app:boxCornerRadiusBottomStart="0dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -34,7 +39,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        app:boxCornerRadiusTopStart="@dimen/btn_corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/btn_corner_radius"
+        app:boxCornerRadiusBottomEnd="0dp"
+        app:boxCornerRadiusBottomStart="0dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

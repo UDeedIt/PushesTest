@@ -7,10 +7,15 @@ import android.app.PendingIntent
 import android.app.TaskStackBuilder
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -36,10 +41,39 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) { // Android 15+
+//            window.decorView.setOnApplyWindowInsetsListener { view, insets ->
+//
+//                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//
+//                val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
+//                view.setBackgroundColor(getColor(R.color.push_color_variant))
+//
+//                // Adjust padding to avoid overlap
+//                view.setPadding(0, statusBarInsets.top, 0, 0)
+//                insets
+//            }
+//
+//        } else {
+//            // For Android 14 and below
+//            window.statusBarColor = getColor(R.color.push_color_variant)
+//        }
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            val decorView = window.decorView
+//            if (isDarkThemeActive()) {
+//                window.statusBarColor = getColor(R.color.push_color_variant) // dark mode background
+//                decorView.systemUiVisibility = decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+//            } else {
+//                window.statusBarColor = getColor(R.color.push_color_variant) // light mode background
+//                decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//            }
+//        }
 ////        if (Build.VERSION.SDK_INT >= 29) {
 //            val window = this.window
 //            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -69,16 +103,20 @@ class MainActivity : AppCompatActivity() {
 //            insets
 //        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES) // For dark mode
-            // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) // For light mode
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES) // For dark mode
+//            // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) // For light mode
+//        }
 
         createNotificationsChannel()
 
         binding.btnSendNotification.setOnClickListener {
             publishNotification()
         }
+    }
+
+    fun isDarkThemeActive(): Boolean {
+        return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 
 //    fun setStatusBarColor(window: Window, color: Int) {
