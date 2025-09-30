@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "udeedit.tools.notificationtest"
+    namespace = "pro.udeedit.devtools.pushestest"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "udeedit.tools.notificationtest"
+        applicationId = "pro.udeedit.devtools.pushestest"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

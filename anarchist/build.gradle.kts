@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "udeedit.devtools.anarchist"
+    namespace = "pro.udeedit.devtools.anarchist"
     compileSdk = 36
 
     defaultConfig {

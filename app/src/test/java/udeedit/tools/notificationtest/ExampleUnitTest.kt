@@ -1,4 +1,4 @@
-package udeedit.tools.notificationtest
+package pro.udeedit.devtools.pushestest
 
 import org.junit.Test
 
