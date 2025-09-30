@@ -11,13 +11,9 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -27,13 +23,12 @@ import pro.udeedit.devtools.pushestest.R
 import pro.udeedit.devtools.pushestest.databinding.ActivityMainBinding
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_ID
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_NAME
-import pro.udeedit.devtools.pushestest.utils.NOTIF_ID
+import pro.udeedit.devtools.pushestest.utils.DEFAULT_NOTIF_ID
+import pro.udeedit.devtools.pushestest.utils.REQUEST_PERMISSION_CODE
 
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
-
-    private val REQUEST_PERMISSION_CODE = 12
 
     val requestPermissionList: MutableList<String> = mutableListOf()
     private lateinit var binding: ActivityMainBinding
@@ -171,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         val notifManger = NotificationManagerCompat.from(this)
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            notifManger.notify(NOTIF_ID, notif)
+            notifManger.notify(DEFAULT_NOTIF_ID, notif)
         }
     }
 
