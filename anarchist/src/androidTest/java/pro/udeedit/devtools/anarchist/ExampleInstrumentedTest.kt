@@ -1,4 +1,4 @@
-package udeedit.devtools.anarchist
+package pro.udeedit.devtools.anarchist
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

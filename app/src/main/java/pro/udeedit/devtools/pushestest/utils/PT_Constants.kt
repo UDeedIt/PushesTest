@@ -1,7 +1,7 @@
 package pro.udeedit.devtools.pushestest.utils
 
 // permissions
-const val REQUEST_PERMISSION_CODE = 12
+const val REQUEST_PERMISSION_CODE = 100
 
 // in-app notifications
 const val CHANNEL_ID = "pro.udeedit.devtools.pushestest.channelid"
