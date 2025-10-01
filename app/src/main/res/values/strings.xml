@@ -12,4 +12,7 @@
     <string name="permission_is_permanently_denied">Permission is permanently denied by user</string>
     <string name="permission_allowed">Permission allowed by user</string>
 
+    <string name="please_fill_notification_title">Please fill notification title</string>
+    <string name="please_fill_notification_text">Please fill notification text</string>
+
 </resources>

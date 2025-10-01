@@ -11,6 +11,9 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +28,7 @@ import pro.udeedit.devtools.pushestest.utils.CHANNEL_ID
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_NAME
 import pro.udeedit.devtools.pushestest.utils.DEFAULT_NOTIF_ID
 import pro.udeedit.devtools.pushestest.utils.REQUEST_PERMISSION_CODE
+
 
 private const val TAG = "MainActivity"
 
@@ -105,8 +109,46 @@ class MainActivity : AppCompatActivity() {
 
         createNotificationsChannel()
 
+        binding.edtNotificationTitle.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrBlank()) {
+                    setErrorNotificationTitle(true)
+
+                } else {
+                    setErrorNotificationTitle(false)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                //
+            }
+        })
+
+        binding.edtNotificationBody.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrBlank()) {
+                    setErrorNotificationBody(true)
+
+                } else {
+                    setErrorNotificationBody(false)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                //
+            }
+        })
+
         binding.btnSendNotification.setOnClickListener {
-            publishNotification()
+            onSendNotification()
         }
     }
 
@@ -144,6 +186,49 @@ class MainActivity : AppCompatActivity() {
             }
             val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel)
+        }
+    }
+
+
+    private fun onSendNotification() {
+        val notificationTitle = binding.edtNotificationTitle.text.toString()
+        val notificationBody = binding.edtNotificationBody.text.toString()
+        Log.d(TAG, "notificationTitle = $notificationTitle, isEmpty = ${notificationTitle.isEmpty()}")
+
+        if (notificationTitle.isBlank()) {
+            setErrorNotificationTitle(true)
+        }
+
+        if (notificationBody.isBlank()) {
+            setErrorNotificationBody(true)
+        }
+
+        if (notificationTitle.isBlank() || notificationBody.isBlank()) {
+            return
+        }
+
+        publishNotification()
+    }
+
+    private fun setErrorNotificationTitle(isError: Boolean) {
+        if (isError) {
+            binding.tilNotificationTitle.isErrorEnabled = true
+            binding.tilNotificationTitle.error = getString(R.string.please_fill_notification_title)
+
+        } else {
+            binding.tilNotificationTitle.isErrorEnabled = false
+            binding.tilNotificationTitle.error = null
+        }
+    }
+
+    private fun setErrorNotificationBody(isError: Boolean) {
+        if (isError) {
+            binding.tilNotificationBody.isErrorEnabled = true
+            binding.tilNotificationBody.error = getString(R.string.please_fill_notification_text)
+
+        } else {
+            binding.tilNotificationBody.isErrorEnabled = false
+            binding.tilNotificationBody.error = null
         }
     }
 

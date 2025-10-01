@@ -10,12 +10,12 @@
     tools:context=".ui.MainActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edt_notification_title"
+        android:id="@+id/til_notification_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/edt_margin_hor"
         android:layout_marginVertical="@dimen/edt_spacer_vert"
-        app:layout_constraintBottom_toTopOf="@id/edt_notification_body"
+        app:layout_constraintBottom_toTopOf="@id/til_notification_body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
@@ -25,13 +25,14 @@
         app:boxCornerRadiusBottomStart="0dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_notification_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_notification_title" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edt_notification_body"
+        android:id="@+id/til_notification_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/edt_margin_hor"
@@ -47,6 +48,7 @@
         app:boxCornerRadiusBottomStart="0dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_notification_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_notification_body" />
@@ -60,7 +62,7 @@
         android:text="@string/btn_send_notification"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edt_notification_body"
+        app:layout_constraintTop_toBottomOf="@id/til_notification_body"
         style="@style/Widget.MaterialComponents.Button"
         app:cornerRadius="@dimen/btn_corner_radius"
         app:strokeColor="@color/md_theme_primary" />
