@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Pushes Test</string>
+    <string name="app_name" translatable="false">Pushes Test</string>
 
     <string name="btn_send_notification">Send Notification</string>
 

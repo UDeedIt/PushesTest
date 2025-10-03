@@ -52,22 +52,25 @@ class AnarchistPermissionUtils {
 
             permissionResult.permissionStatus = permissionStatus
 
-            val isAnyPermissionDeniedPermanently =
-                permissionStatus.values.any { it == AnarchistPermissionStatus.DENIED_PERMANENTLY }
+            val isAnyPermissionDeniedPermanently = permissionStatus.values.any {
+                it == AnarchistPermissionStatus.DENIED_PERMANENTLY
+            }
 
             if (isAnyPermissionDeniedPermanently) {
                 permissionResult.finalStatus = AnarchistPermissionStatus.DENIED_PERMANENTLY
                 return permissionResult
             }
 
-            val isAnyPermissionNotGiven =
-                permissionStatus.values.any { it == AnarchistPermissionStatus.DENIED }
+            val isAnyPermissionNotGiven = permissionStatus.values.any {
+                it == AnarchistPermissionStatus.DENIED
+            }
 
             if (isAnyPermissionNotGiven) {
                 if (!checkStatusOnly) {
-                    val notGivenPermissionList =
-                        permissionStatus.filter { it.value == AnarchistPermissionStatus.DENIED }
-                            .keys.toMutableList()
+                    val notGivenPermissionList = permissionStatus.filter {
+                        it.value == AnarchistPermissionStatus.DENIED
+
+                    }.keys.toMutableList()
 
                     requestPermissions(activity, notGivenPermissionList, requestCode)
                 }

@@ -5,12 +5,16 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.TaskStackBuilder
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -34,8 +38,15 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var vibrator: Vibrator
     val requestPermissionList: MutableList<String> = mutableListOf()
     private lateinit var binding: ActivityMainBinding
+
+    val patternConfirmation = longArrayOf(0, 100, 50, 100) // pattern: wait, vibrate, wait, vibrate
+    // Pattern: vibrate-beep pattern (longer, more aggressive)
+    val patternError = longArrayOf(0, 300, 100, 300, 100, 300) // Vibrate 3 times with pauses
+    private val vibrationDurationSuccess = 500L
+    private val vibrationDurationError = 1000L
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +54,19 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // For Android S (API level 31) and above
+            val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+//            val vibratorManager = getSystemService<VibratorManager>()
+            vibrator = vibratorManager.defaultVibrator // getDefaultVibrator()
+//            vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE))
+
+        } else {
+            // For earlier versions
+            vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+//            vibrator.vibrate(vibrationDuration) // Deprecated vibrate function
+        }
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) { // Android 15+
 //            window.decorView.setOnApplyWindowInsetsListener { view, insets ->
@@ -207,13 +231,14 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        publishNotification()
+        publishNotification(notificationTitle, notificationBody)
     }
 
     private fun setErrorNotificationTitle(isError: Boolean) {
         if (isError) {
             binding.tilNotificationTitle.isErrorEnabled = true
             binding.tilNotificationTitle.error = getString(R.string.please_fill_notification_title)
+            vibrateError()
 
         } else {
             binding.tilNotificationTitle.isErrorEnabled = false
@@ -225,6 +250,7 @@ class MainActivity : AppCompatActivity() {
         if (isError) {
             binding.tilNotificationBody.isErrorEnabled = true
             binding.tilNotificationBody.error = getString(R.string.please_fill_notification_text)
+            vibrateError()
 
         } else {
             binding.tilNotificationBody.isErrorEnabled = false
@@ -232,7 +258,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun publishNotification() {
+    private fun vibrateError() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val vibrationEffect = VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE)
+//            vibrator.vibrate(vibrationEffect)
+            vibrator.vibrate(VibrationEffect.createWaveform(patternError, -1))
+
+        } else {
+            vibrator.vibrate(vibrationDurationError)
+        }
+    }
+
+    private fun vibrateSuccess() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val vibrationEffect = VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE)
+//            vibrator.vibrate(vibrationEffect)
+            vibrator.vibrate(VibrationEffect.createWaveform(patternConfirmation, -1))
+
+        } else {
+            vibrator.vibrate(vibrationDurationSuccess)
+        }
+    }
+
+    private fun publishNotification(title: String, body: String) {
         val intent=Intent(this, MainActivity::class.java)
 
         val pendingIntent = TaskStackBuilder.create(this).run {
@@ -241,8 +289,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val notif = NotificationCompat.Builder(this,CHANNEL_ID)
-            .setContentTitle("Sample Title")
-            .setContentText("This is sample body notif")
+            .setContentTitle(title) // "Sample Title"
+            .setContentText(body) // "This is sample body notif"
             .setSmallIcon(R.drawable.ic_alarm_bell)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
@@ -252,8 +300,10 @@ class MainActivity : AppCompatActivity() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             notifManger.notify(DEFAULT_NOTIF_ID, notif)
+            vibrateSuccess()
         }
     }
+
 
     private fun initializePermissionList() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

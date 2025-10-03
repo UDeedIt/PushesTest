@@ -6,11 +6,10 @@ import androidx.core.content.edit
 internal class AnarchistPermissionPreference(context: Context) {
 
     companion object {
-        private const val PERMISSION_PREFERENCE_FILE = "permissionPreference"
+        private const val PERMISSION_PREFERENCE_FILE = "AnarchistPermissionPreference"
     }
 
-    private val sharedPreference =
-        context.getSharedPreferences(PERMISSION_PREFERENCE_FILE, Context.MODE_PRIVATE)
+    private val sharedPreference = context.getSharedPreferences(PERMISSION_PREFERENCE_FILE, Context.MODE_PRIVATE)
 
     fun isPermissionRequestedBefore(permission: String): Boolean {
         return sharedPreference.getBoolean(permission, false)
@@ -27,5 +26,4 @@ internal class AnarchistPermissionPreference(context: Context) {
             putBoolean(permission, false)
         }
     }
-
 }
