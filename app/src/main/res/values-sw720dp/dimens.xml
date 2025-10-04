@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="edt_margin_hor">128dp</dimen>
+    <dimen name="edt_spacer_vert">48dp</dimen>
+    <dimen name="btn_margin_vert">48dp</dimen>
+    <dimen name="btn_corner_radius">6dp</dimen>
+
+</resources>
