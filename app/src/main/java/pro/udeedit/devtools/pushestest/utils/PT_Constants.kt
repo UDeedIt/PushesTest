@@ -1,6 +1,5 @@
 package pro.udeedit.devtools.pushestest.utils
 
-// permissions
 const val REQUEST_PERMISSION_CODE = 100
 
 // in-app notifications

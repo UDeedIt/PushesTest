@@ -4,14 +4,11 @@
 
     <!-- Allows an app to post notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
-
 
     <application
         android:name=".PtApp"
         android:allowBackup="true"
-
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -26,7 +23,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.NotificationTestTool"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="DiscouragedApi,LockedOrientationActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

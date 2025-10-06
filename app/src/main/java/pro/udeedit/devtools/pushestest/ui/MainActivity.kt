@@ -20,12 +20,16 @@ import android.os.VibratorManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Window
+import android.view.WindowInsets
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import pro.udeedit.devtools.anarchist.AnarchistPermissionStatus
 import pro.udeedit.devtools.anarchist.AnarchistPermissionUtils
 import pro.udeedit.devtools.pushestest.R
@@ -34,111 +38,93 @@ import pro.udeedit.devtools.pushestest.utils.CHANNEL_ID
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_NAME
 import pro.udeedit.devtools.pushestest.utils.DEFAULT_NOTIF_ID
 import pro.udeedit.devtools.pushestest.utils.REQUEST_PERMISSION_CODE
-
+import androidx.core.graphics.drawable.toDrawable
 
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var vibrator: Vibrator
+    // permissions
     val requestPermissionList: MutableList<String> = mutableListOf()
-    private lateinit var binding: ActivityMainBinding
 
+    // vibrator
+    private lateinit var vibrator: Vibrator
     val patternConfirmation = longArrayOf(0, 100, 50, 100) // pattern: wait, vibrate, wait, vibrate
     // Pattern: vibrate-beep pattern (longer, more aggressive)
     val patternError = longArrayOf(0, 300, 100, 300, 100, 300) // Vibrate 3 times with pauses
     private val vibrationDurationSuccess = 500L
     private val vibrationDurationError = 1000L
 
+    // text watcher
+    lateinit var textWatcherTitle: TextWatcher
+    lateinit var textWatcherBody: TextWatcher
+
+    var isRecreated = false
+
+    // binding
+    private lateinit var binding: ActivityMainBinding
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate")
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
+        // setup window view
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        // init vibrator
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            // For Android S (API level 31) and above
             val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
-//            val vibratorManager = getSystemService<VibratorManager>()
-            vibrator = vibratorManager.defaultVibrator // getDefaultVibrator()
-//            vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE))
+            vibrator = vibratorManager.defaultVibrator
 
         } else {
             // For earlier versions
-            vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-//            vibrator.vibrate(vibrationDuration) // Deprecated vibrate function
+            vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) { // Android 15+
-//            window.decorView.setOnApplyWindowInsetsListener { view, insets ->
-//
-//                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-//
-//                val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
-//                view.setBackgroundColor(getColor(R.color.push_color_variant))
-//
-//                // Adjust padding to avoid overlap
-//                view.setPadding(0, statusBarInsets.top, 0, 0)
-//                insets
-//            }
-//
-//        } else {
-//            // For Android 14 and below
-//            window.statusBarColor = getColor(R.color.push_color_variant)
-//        }
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            val decorView = window.decorView
-//            if (isDarkThemeActive()) {
-//                window.statusBarColor = getColor(R.color.push_color_variant) // dark mode background
-//                decorView.systemUiVisibility = decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-//            } else {
-//                window.statusBarColor = getColor(R.color.push_color_variant) // light mode background
-//                decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-//            }
-//        }
-////        if (Build.VERSION.SDK_INT >= 29) {
-//            val window = this.window
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-////            window.statusBarColor = this.resources.getColor(R.color.push_color_variant)
-////        }
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) { // Android 15+
-//            window.decorView.setOnApplyWindowInsetsListener { view, insets ->
-//                val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
-//                view.setBackgroundColor(this.resources.getColor(R.color.push_color_variant))
-//
-//                // Adjust padding to avoid overlap
-////                view.setPadding(0, statusBarInsets.top, 0, 0)
-//                view.setPadding(statusBarInsets.left, statusBarInsets.top, statusBarInsets.right, statusBarInsets.bottom)
-//                insets
-//            }
-//
-//        } else {
-//            // For Android 14 and below
-//            window.statusBarColor = this.resources.getColor(R.color.push_color_variant)
-//        }
-
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES) // For dark mode
-//            // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) // For light mode
-//        }
+        // setup status bar
+//        setStatusBarColor(window, getColor(R.color.push_color_variant))
+        // set appbar color
+//        setAppbarColor()
 
         createNotificationsChannel()
 
-        binding.edtNotificationTitle.addTextChangedListener(object : TextWatcher {
+        if (savedInstanceState != null) {
+            // activity recreated (configuration change, theme switch, etc.)
+            isRecreated = true
+
+        }  else {
+            // first launch
+            createTextWatcherTitleObject()
+            createTextWatcherBodyObject()
+
+            binding.edtNotificationTitle.addTextChangedListener(textWatcherTitle)
+            binding.edtNotificationBody.addTextChangedListener(textWatcherBody)
+        }
+
+        binding.btnSendNotification.setOnClickListener {
+            onSendNotification()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initializePermissionList()
+        requestSinglePermission()
+    }
+
+
+    fun createTextWatcherTitleObject() {
+        textWatcherTitle = object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrBlank()) {
                     setErrorNotificationTitle(true)
@@ -155,9 +141,11 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 //
             }
-        })
+        }
+    }
 
-        binding.edtNotificationBody.addTextChangedListener(object : TextWatcher {
+    fun createTextWatcherBodyObject() {
+        textWatcherBody = object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrBlank()) {
                     setErrorNotificationBody(true)
@@ -174,38 +162,50 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 //
             }
-        })
-
-        binding.btnSendNotification.setOnClickListener {
-            onSendNotification()
         }
     }
 
-    fun isDarkThemeActive(): Boolean {
-        return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+    fun setStatusBarColor(window: Window, color: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) { // Android 15+
+            window.decorView.setOnApplyWindowInsetsListener { view, insets ->
+//                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
+                val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
+                view.setBackgroundColor(color)
+
+                // adjust padding to avoid overlap
+                view.setPadding(0, statusBarInsets.top, 0, 0)
+                insets
+            }
+
+        } else {
+            // for Android 14 and below
+            window.statusBarColor = color
+        }
     }
 
-//    fun setStatusBarColor(window: Window, color: Int) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) { // Android 15+
-//            window.decorView.setOnApplyWindowInsetsListener { view, insets ->
-//                val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
-//                view.setBackgroundColor(color)
-//
-//                // Adjust padding to avoid overlap
-//                view.setPadding(0, statusBarInsets.top, 0, 0)
-//                insets
-//            }
-//        } else {
-//            // For Android 14 and below
-//            window.statusBarColor = color
-//        }
-//    }
+    fun setAppbarColor() {
+        val currentNightMode: Int = this.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 
-    override fun onResume() {
-        super.onResume()
-        initializePermissionList()
-        requestSinglePermission()
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                // Night mode is not active, we're in day time
+            }
+
+            Configuration.UI_MODE_NIGHT_YES -> {
+                // Night mode is not active, we're in day time
+                supportActionBar?.setBackgroundDrawable(
+                    resources.getColor(R.color.push_color_variant, null).toDrawable()
+                )
+            }
+
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // We don't know what mode we're in, assume notnight
+            }
+        }
     }
+
 
     private fun createNotificationsChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -218,11 +218,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun onSendNotification() {
         val notificationTitle = binding.edtNotificationTitle.text.toString()
         val notificationBody = binding.edtNotificationBody.text.toString()
-        Log.d(TAG, "notificationTitle = $notificationTitle, isEmpty = ${notificationTitle.isEmpty()}")
 
         if (notificationTitle.isBlank()) {
             setErrorNotificationTitle(true)
@@ -264,6 +262,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun vibrateError() {
+        Log.d(TAG, "vibrateError")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            val vibrationEffect = VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE)
 //            vibrator.vibrate(vibrationEffect)
@@ -275,6 +274,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun vibrateSuccess() {
+        Log.d(TAG, "vibrateSuccess")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            val vibrationEffect = VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE)
 //            vibrator.vibrate(vibrationEffect)
@@ -294,8 +294,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val notif = NotificationCompat.Builder(this,CHANNEL_ID)
-            .setContentTitle(title) // "Sample Title"
-            .setContentText(body) // "This is sample body notif"
+            .setContentTitle(title)
+            .setContentText(body)
             .setSmallIcon(R.drawable.ic_alarm_bell)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
@@ -325,11 +325,7 @@ class MainActivity : AppCompatActivity() {
 
         when (permissionResult.finalStatus) {
             AnarchistPermissionStatus.ALLOWED -> {
-                Toast.makeText(
-                    this,
-                    getString(R.string.permission_is_already_allowed),
-                    Toast.LENGTH_LONG
-                ).show()
+                Log.d(TAG, "Permission is already allowed by user")
             }
 
             AnarchistPermissionStatus.DENIED_PERMANENTLY -> {
@@ -337,11 +333,12 @@ class MainActivity : AppCompatActivity() {
                 //You can show customized dialog and then call this function
                 Toast.makeText(this, getString(R.string.permission_is_permanently_denied), Toast.LENGTH_LONG)
                     .show()
+
                 AnarchistPermissionUtils.askUserToRequestPermissionExplicitly(this)
             }
 
             else -> {
-                //Permission is requesting for first time or user denied permission before but not permanently
+                // Permission is requesting for first time or user denied permission before but not permanently
             }
         }
     }
@@ -354,7 +351,7 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == REQUEST_PERMISSION_CODE) {
-            //Check status after user allowed or denied permission using the same way while requested permission
+            // Check status after user allowed or denied permission using the same way while requested permission
             val permissionResult = AnarchistPermissionUtils.checkAndRequestPermissions(
                     this,
                     requestPermissionList,
@@ -363,7 +360,7 @@ class MainActivity : AppCompatActivity() {
                 )
 
             when (permissionResult.finalStatus) {
-                AnarchistPermissionStatus.ALLOWED -> {//DO further stuffs as all permissions are allowed by user
+                AnarchistPermissionStatus.ALLOWED -> {
                     Toast.makeText(this, getString(R.string.permission_allowed), Toast.LENGTH_LONG).show()
                 }
 
@@ -375,7 +372,7 @@ class MainActivity : AppCompatActivity() {
                     ).show()
 
                 } else -> {
-                    //Permission denied by user but not permanently
+                    // Permission denied by user but not permanently
                 }
             }
         }

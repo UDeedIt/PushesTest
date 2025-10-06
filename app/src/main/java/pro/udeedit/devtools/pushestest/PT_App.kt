@@ -5,7 +5,6 @@ import android.util.Log
 
 private const val TAG = "PT_App"
 
-// NTT key - Notification Test Tool
 class PtApp : Application() {
 
     override fun onCreate() {
