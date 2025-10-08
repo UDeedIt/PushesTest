@@ -1,0 +1,14 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/sargius/Documents/#5_Projects/#2_UDEEDIT/PublicProjects/#1-#25/#1_PushesTest/PushesTest/anarchist/src/main/AndroidManifest.xml:2:1-4:12
+INJECTED from /Users/sargius/Documents/#5_Projects/#2_UDEEDIT/PublicProjects/#1-#25/#1_PushesTest/PushesTest/anarchist/src/main/AndroidManifest.xml:2:1-4:12
+	package
+		INJECTED from /Users/sargius/Documents/#5_Projects/#2_UDEEDIT/PublicProjects/#1-#25/#1_PushesTest/PushesTest/anarchist/src/main/AndroidManifest.xml
+uses-sdk
+INJECTED from /Users/sargius/Documents/#5_Projects/#2_UDEEDIT/PublicProjects/#1-#25/#1_PushesTest/PushesTest/anarchist/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/sargius/Documents/#5_Projects/#2_UDEEDIT/PublicProjects/#1-#25/#1_PushesTest/PushesTest/anarchist/src/main/AndroidManifest.xml
+INJECTED from /Users/sargius/Documents/#5_Projects/#2_UDEEDIT/PublicProjects/#1-#25/#1_PushesTest/PushesTest/anarchist/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/sargius/Documents/#5_Projects/#2_UDEEDIT/PublicProjects/#1-#25/#1_PushesTest/PushesTest/anarchist/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/sargius/Documents/#5_Projects/#2_UDEEDIT/PublicProjects/#1-#25/#1_PushesTest/PushesTest/anarchist/src/main/AndroidManifest.xml

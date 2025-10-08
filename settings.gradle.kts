@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "NotificationTestTool"
+rootProject.name = "PushesTest"
 include(":app")
- 
+include(":anarchist")
