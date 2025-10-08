@@ -6,11 +6,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.TaskStackBuilder
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -20,8 +18,6 @@ import android.os.VibratorManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Window
-import android.view.WindowInsets
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -49,16 +45,21 @@ class MainActivity : AppCompatActivity() {
 
     // vibrator
     private lateinit var vibrator: Vibrator
-    val patternConfirmation = longArrayOf(0, 100, 50, 100) // pattern: wait, vibrate, wait, vibrate
+
+    // pattern: wait, vibrate, wait, vibrate
+    val patternConfirmation = longArrayOf(0, 100, 50, 100)
+
     // Pattern: vibrate-beep pattern (longer, more aggressive)
-    val patternError = longArrayOf(0, 300, 100, 300, 100, 300) // Vibrate 3 times with pauses
+    // Vibrate 3 times with pauses
+    val patternError = longArrayOf(0, 300, 100, 300, 100, 300)
+
     private val vibrationDurationSuccess = 500L
     private val vibrationDurationError = 1000L
 
     // text watcher
     lateinit var textWatcherTitle: TextWatcher
     lateinit var textWatcherBody: TextWatcher
-
+    
     var isRecreated = false
 
     // binding
@@ -75,27 +76,8 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         // setup window view
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        // init vibrator
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            vibrator = vibratorManager.defaultVibrator
-
-        } else {
-            // For earlier versions
-            vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-        }
-
-        // setup status bar
-//        setStatusBarColor(window, getColor(R.color.push_color_variant))
-        // set appbar color
-//        setAppbarColor()
-
+        setupWindow()
+        createVibratorObject()
         createNotificationsChannel()
 
         if (savedInstanceState != null) {
@@ -122,7 +104,28 @@ class MainActivity : AppCompatActivity() {
         requestSinglePermission()
     }
 
+    private fun setupWindow() {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
 
+    /** init vibrator object */
+    @Suppress("DEPRECATION")
+    fun createVibratorObject() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibrator = vibratorManager.defaultVibrator
+
+        } else {
+            // For earlier versions
+            vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+        }
+    }
+
+    /** Set text watcher object for notification title */
     fun createTextWatcherTitleObject() {
         textWatcherTitle = object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -144,6 +147,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Set text watcher object for notification body */
     fun createTextWatcherBodyObject() {
         textWatcherBody = object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -165,48 +169,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setStatusBarColor(window: Window, color: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) { // Android 15+
-            window.decorView.setOnApplyWindowInsetsListener { view, insets ->
-//                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-
-                val statusBarInsets = insets.getInsets(WindowInsets.Type.statusBars())
-                view.setBackgroundColor(color)
-
-                // adjust padding to avoid overlap
-                view.setPadding(0, statusBarInsets.top, 0, 0)
-                insets
-            }
-
-        } else {
-            // for Android 14 and below
-            window.statusBarColor = color
-        }
-    }
-
-    fun setAppbarColor() {
-        val currentNightMode: Int = this.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-
-        when (currentNightMode) {
-            Configuration.UI_MODE_NIGHT_NO -> {
-                // Night mode is not active, we're in day time
-            }
-
-            Configuration.UI_MODE_NIGHT_YES -> {
-                // Night mode is not active, we're in day time
-                supportActionBar?.setBackgroundDrawable(
-                    resources.getColor(R.color.push_color_variant, null).toDrawable()
-                )
-            }
-
-            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
-                // We don't know what mode we're in, assume notnight
-            }
-        }
-    }
-
-
+    /** setup notification channel for sending notification within the app */
     private fun createNotificationsChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT).apply {
@@ -218,6 +181,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** check if notification fields are correct ans send notification */
     private fun onSendNotification() {
         val notificationTitle = binding.edtNotificationTitle.text.toString()
         val notificationBody = binding.edtNotificationBody.text.toString()
@@ -237,54 +201,7 @@ class MainActivity : AppCompatActivity() {
         publishNotification(notificationTitle, notificationBody)
     }
 
-    private fun setErrorNotificationTitle(isError: Boolean) {
-        if (isError) {
-            binding.tilNotificationTitle.isErrorEnabled = true
-            binding.tilNotificationTitle.error = getString(R.string.please_fill_notification_title)
-            vibrateError()
-
-        } else {
-            binding.tilNotificationTitle.isErrorEnabled = false
-            binding.tilNotificationTitle.error = null
-        }
-    }
-
-    private fun setErrorNotificationBody(isError: Boolean) {
-        if (isError) {
-            binding.tilNotificationBody.isErrorEnabled = true
-            binding.tilNotificationBody.error = getString(R.string.please_fill_notification_text)
-            vibrateError()
-
-        } else {
-            binding.tilNotificationBody.isErrorEnabled = false
-            binding.tilNotificationBody.error = null
-        }
-    }
-
-    private fun vibrateError() {
-        Log.d(TAG, "vibrateError")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val vibrationEffect = VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE)
-//            vibrator.vibrate(vibrationEffect)
-            vibrator.vibrate(VibrationEffect.createWaveform(patternError, -1))
-
-        } else {
-            vibrator.vibrate(vibrationDurationError)
-        }
-    }
-
-    private fun vibrateSuccess() {
-        Log.d(TAG, "vibrateSuccess")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val vibrationEffect = VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE)
-//            vibrator.vibrate(vibrationEffect)
-            vibrator.vibrate(VibrationEffect.createWaveform(patternConfirmation, -1))
-
-        } else {
-            vibrator.vibrate(vibrationDurationSuccess)
-        }
-    }
-
+    /** publish actual notification */
     private fun publishNotification(title: String, body: String) {
         val intent=Intent(this, MainActivity::class.java)
 
@@ -309,6 +226,56 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** set error to notification title field, if there is no text entered */
+    private fun setErrorNotificationTitle(isError: Boolean) {
+        if (isError) {
+            binding.tilNotificationTitle.isErrorEnabled = true
+            binding.tilNotificationTitle.error = getString(R.string.please_fill_notification_title)
+            vibrateError()
+
+        } else {
+            binding.tilNotificationTitle.isErrorEnabled = false
+            binding.tilNotificationTitle.error = null
+        }
+    }
+
+    /** set error to notification body field, if there is no text entered */
+    private fun setErrorNotificationBody(isError: Boolean) {
+        if (isError) {
+            binding.tilNotificationBody.isErrorEnabled = true
+            binding.tilNotificationBody.error = getString(R.string.please_fill_notification_text)
+            vibrateError()
+
+        } else {
+            binding.tilNotificationBody.isErrorEnabled = false
+            binding.tilNotificationBody.error = null
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun vibrateError() {
+        Log.d(TAG, "vibrateError")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createWaveform(patternError, -1))
+
+        } else {
+            vibrator.vibrate(vibrationDurationError)
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun vibrateSuccess() {
+        Log.d(TAG, "vibrateSuccess")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createWaveform(patternConfirmation, -1))
+
+        } else {
+            vibrator.vibrate(vibrationDurationSuccess)
+        }
+    }
+
+
+    // handle permissions
 
     private fun initializePermissionList() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -316,6 +283,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** request single permission for POST_NOTIFICATIONS */
     private fun requestSinglePermission() {
         val permissionResult = AnarchistPermissionUtils.checkAndRequestPermissions(
                 this,
