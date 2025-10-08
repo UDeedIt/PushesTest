@@ -34,7 +34,6 @@ import pro.udeedit.devtools.pushestest.utils.CHANNEL_ID
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_NAME
 import pro.udeedit.devtools.pushestest.utils.DEFAULT_NOTIF_ID
 import pro.udeedit.devtools.pushestest.utils.REQUEST_PERMISSION_CODE
-import androidx.core.graphics.drawable.toDrawable
 
 private const val TAG = "MainActivity"
 
