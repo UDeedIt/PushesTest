@@ -59,4 +59,10 @@ We appreciate your understanding and support!
 
 -------
 
+## License
+
+This project is licensed under the MIT License.
+
+------
+
 
