@@ -16,7 +16,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // vc1, 1.0.0 - create develop branch
+        // vc1, 1.0.0 - first release
     }
 
     buildTypes {
