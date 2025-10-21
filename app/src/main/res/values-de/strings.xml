@@ -1,0 +1,18 @@
+<resources>
+
+    <string name="app_name">Pushes Test</string>
+
+    <string name="btn_send_notification">Benachrichtigung senden</string>
+
+    <string name="hint_notification_title">Benachrichtigungstitel</string>
+    <string name="hint_notification_body">Benachrichtigungstext</string>
+
+    <!-- Permissions -->
+    <string name="permission_is_already_allowed">Berechtigung ist bereits vom Benutzer erlaubt</string>
+    <string name="permission_is_permanently_denied">Berechtigung ist dauerhaft vom Benutzer verweigert</string>
+    <string name="permission_allowed">Berechtigung vom Benutzer erlaubt</string>
+
+    <string name="please_fill_notification_title">Bitte füllen Sie den Benachrichtigungstitel aus</string>
+    <string name="please_fill_notification_text">Bitte füllen Sie den Benachrichtigungstext aus</string>
+
+</resources>

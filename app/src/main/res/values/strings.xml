@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">NotificationTestTool</string>
+
+    <string name="app_name" translatable="false">Pushes Test</string>
+
+    <string name="btn_send_notification">Send Notification</string>
+
+    <string name="hint_notification_title">Notification Title</string>
+    <string name="hint_notification_body">Notification Text</string>
+
+    <!-- Permissions -->
+    <string name="permission_is_already_allowed">Permission is already allowed by user</string>
+    <string name="permission_is_permanently_denied">Permission is permanently denied by user</string>
+    <string name="permission_allowed">Permission allowed by user</string>
+
+    <string name="please_fill_notification_title">Please fill notification title</string>
+    <string name="please_fill_notification_text">Please fill notification text</string>
+
 </resources>
