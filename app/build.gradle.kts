@@ -56,4 +56,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(project(":anarchist"))
+    implementation(project(":cushystorage"))
 }
