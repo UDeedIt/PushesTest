@@ -11,11 +11,12 @@ android {
         applicationId = "pro.udeedit.devtools.pushestest"
         minSdk = 24
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.1.0"
+        versionCode = 3
+        versionName = "1.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        // vc3, 1.1.1 - add CushyStorage module
         // vc2, 1.1.0 - work on epic PT-11
         // vc1, 1.0.0 - create develop branch
     }
