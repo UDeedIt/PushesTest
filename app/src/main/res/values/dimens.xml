@@ -6,4 +6,15 @@
     <dimen name="btn_margin_vert">24dp</dimen>
     <dimen name="btn_corner_radius">6dp</dimen>
 
+    <dimen name="margin_horizontal_small">4dp</dimen>
+    <dimen name="margin_horizontal_normal">8dp</dimen>
+    <dimen name="margin_horizontal_middle">16dp</dimen>
+
+    <dimen name="margin_vertical_normal">8dp</dimen>
+    <dimen name="margin_vertical_middle">16dp</dimen>
+    <dimen name="margin_vertical_large">24dp</dimen>
+    <dimen name="margin_vertical_huge">48dp</dimen>
+
+    <dimen name="switch_padding_start">4dp</dimen>
+
 </resources>

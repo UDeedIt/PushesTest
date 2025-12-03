@@ -1,5 +1,6 @@
 plugins {
-    alias(libs.plugins.android.application)
+//    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
 }
 
@@ -8,11 +9,11 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "pro.udeedit.devtools.cushystorage"
+//        applicationId = "pro.udeedit.devtools.cushystorage"
         minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+//        targetSdk = 36
+//        versionCode = 1
+//        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -10,7 +10,7 @@
     tools:context=".ui.MainActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_notification_title"
+        android:id="@+id/ll_notification_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/edt_margin_hor"

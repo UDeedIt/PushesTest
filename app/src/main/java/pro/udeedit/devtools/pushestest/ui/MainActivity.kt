@@ -18,6 +18,7 @@ import android.os.VibratorManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -28,11 +29,17 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import pro.udeedit.devtools.anarchist.AnarchistPermissionStatus
 import pro.udeedit.devtools.anarchist.AnarchistPermissionUtils
+import pro.udeedit.devtools.cushystorage.CushyStorage
 import pro.udeedit.devtools.pushestest.R
 import pro.udeedit.devtools.pushestest.databinding.ActivityMainBinding
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_ID
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_NAME
 import pro.udeedit.devtools.pushestest.utils.DEFAULT_NOTIF_ID
+import pro.udeedit.devtools.pushestest.utils.PREF_ADVANCED_SETUP
+import pro.udeedit.devtools.pushestest.utils.PREF_DEFAULT_TEXTS
+import pro.udeedit.devtools.pushestest.utils.PREF_MULTILINE_NOTIFICATION
+import pro.udeedit.devtools.pushestest.utils.PREF_OVERWRITE_NOTIFICATION
+import pro.udeedit.devtools.pushestest.utils.PREF_VIBRATION_ON_ERROR
 import pro.udeedit.devtools.pushestest.utils.REQUEST_PERMISSION_CODE
 
 private const val TAG = "MainActivity"
@@ -60,6 +67,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var textWatcherBody: TextWatcher
     
     var isRecreated = false
+
+    var advancedSetup: Boolean = false
+    var defaultTexts: Boolean = false
+    var overwriteNotification: Boolean = false
+    var vibrationOnError: Boolean = false
+    var multilineBody: Boolean = false
 
     // binding
     private lateinit var binding: ActivityMainBinding
@@ -95,12 +108,32 @@ class MainActivity : AppCompatActivity() {
         binding.btnSendNotification.setOnClickListener {
             onSendNotification()
         }
+
+        binding.switchAdvanced?.setOnCheckedChangeListener { _, isChecked ->
+            setupAdvancedViews(isChecked)
+        }
+
+        binding.switchMultilineText?.setOnCheckedChangeListener { _, isChecked ->
+            setupMultilineNotification(isChecked)
+        }
+
+        retrievePreferences()
+        setupAdvancedViews(advancedSetup)
+        setupMultilineNotification(multilineBody)
     }
 
     override fun onResume() {
         super.onResume()
         initializePermissionList()
         requestSinglePermission()
+    }
+
+    private fun retrievePreferences() {
+        advancedSetup = CushyStorage.getBoolean(PREF_ADVANCED_SETUP, false)
+        defaultTexts  = CushyStorage.getBoolean(PREF_DEFAULT_TEXTS, false)
+        overwriteNotification = CushyStorage.getBoolean(PREF_OVERWRITE_NOTIFICATION, false)
+        vibrationOnError = CushyStorage.getBoolean(PREF_VIBRATION_ON_ERROR, true)
+        multilineBody = CushyStorage.getBoolean(PREF_MULTILINE_NOTIFICATION, false)
     }
 
     private fun setupWindow() {
@@ -110,6 +143,63 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
+    private fun setupAdvancedViews(isChecked: Boolean) {
+        if (isChecked) {
+            binding.llSwitches?.visibility = View.VISIBLE
+            binding.llSpinners?.visibility = View.VISIBLE
+            binding.llNotificationImportance?.visibility = View.VISIBLE
+
+        } else {
+            binding.llSwitches?.visibility = View.GONE
+            binding.llSpinners?.visibility = View.GONE
+            binding.llNotificationImportance?.visibility = View.GONE
+        }
+
+        CushyStorage.saveBoolean(PREF_ADVANCED_SETUP, isChecked)
+    }
+
+    private fun setupDefaultTexts(isChecked: Boolean) {
+        if (isChecked) {
+
+        } else {
+
+        }
+
+        CushyStorage.saveBoolean(PREF_DEFAULT_TEXTS, isChecked)
+    }
+
+    private fun setupOverwriteNotification(isChecked: Boolean) {
+        if (isChecked) {
+
+        } else {
+
+        }
+
+        CushyStorage.saveBoolean(PREF_OVERWRITE_NOTIFICATION, isChecked)
+    }
+
+    private fun setupVibrationOnError(isChecked: Boolean) {
+        if (isChecked) {
+
+        } else {
+
+        }
+
+        CushyStorage.saveBoolean(PREF_VIBRATION_ON_ERROR, isChecked)
+    }
+
+    private fun setupMultilineNotification(isChecked: Boolean) {
+        if (isChecked) {
+            binding.edtNotificationBody.minLines = 4
+
+        } else {
+            binding.edtNotificationBody.minLines = 1
+        }
+
+        CushyStorage.saveBoolean(PREF_MULTILINE_NOTIFICATION, isChecked)
+    }
+
 
     /** init vibrator object */
     @Suppress("DEPRECATION")
@@ -180,6 +270,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+//    fun recreateNotificationChannel(context: Context, channelId: String, name: String, importance: Int, description: String? = null) {
+//        val nm = context.getSystemService(NotificationManager::class.java) ?: return
+//
+//        // Remove existing channel
+//        nm.deleteNotificationChannel(channelId)
+//
+//        // Create new channel with desired settings
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val channel = NotificationChannel(channelId, name, importance).apply {
+//                this.description = description
+//                // additional settings you want
+//                enableLights(true)
+//                lightColor = Color.RED
+//                enableVibration(true)
+//                vibrationPattern = longArrayOf(0, 250, 250, 250)
+//                setShowBadge(true)
+//                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+//                // sound, audioAttributes, etc.
+//            }
+//            nm.createNotificationChannel(channel)
+//        }
+//    }
+
     /** check if notification fields are correct ans send notification */
     private fun onSendNotification() {
         val notificationTitle = binding.edtNotificationTitle.text.toString()
@@ -227,15 +340,15 @@ class MainActivity : AppCompatActivity() {
 
     /** set error to notification title field, if there is no text entered */
     private fun setErrorNotificationTitle(isError: Boolean) {
-        if (isError) {
-            binding.tilNotificationTitle.isErrorEnabled = true
-            binding.tilNotificationTitle.error = getString(R.string.please_fill_notification_title)
-            vibrateError()
-
-        } else {
-            binding.tilNotificationTitle.isErrorEnabled = false
-            binding.tilNotificationTitle.error = null
-        }
+//        if (isError) {
+//            binding.llNotificationTitle.isErrorEnabled = true
+//            binding.llNotificationTitle.error = getString(R.string.please_fill_notification_title)
+//            vibrateError()
+//
+//        } else {
+//            binding.llNotificationTitle.isErrorEnabled = false
+//            binding.llNotificationTitle.error = null
+//        }
     }
 
     /** set error to notification body field, if there is no text entered */
@@ -344,4 +457,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }
