@@ -8,6 +8,7 @@ private const val TAG = "PT_App"
 
 class PtApp : Application() {
 
+
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "onCreate")

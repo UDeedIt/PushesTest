@@ -2,20 +2,23 @@
 
     <string name="app_name" translatable="false">Pushes Test</string>
 
-    <string name="btn_send_notification">Send Notification</string>
-    <string name="btn_stop">Stop</string>
+    <string name="lbl_send_notification">Send Notification</string>
+    <string name="lbl_stop">Stop</string>
 
     <string name="hint_notification_title">Notification Title</string>
     <string name="hint_notification_body">Notification Text</string>
 
     <string name="advanced">Advanced setup</string>
-    <string name="use_defaults">Use defaults</string>
+    <string name="use_mock_data">Use mock data</string>
     <string name="overwrite">Overwrite</string>
     <string name="vibration">Vibration</string>
     <string name="multiline_text">Multiline</string>
     <string name="sending_periods">Sending periods:</string>
     <string name="sending_delays">Sending delays:</string>
     <string name="notification_importance">Notification importance:</string>
+
+    <!-- Warnings -->
+    <string name="settings_reset_msg">Settings reset to defaults</string>
 
     <!-- Permissions -->
     <string name="permission_is_already_allowed">Permission is already allowed by user</string>
@@ -24,7 +27,46 @@
 
     <string name="please_fill_notification_title">Please fill notification title</string>
     <string name="please_fill_notification_text">Please fill notification text</string>
+    <string name="settings">Settings</string>
 
+    <!-- Notification Content & Style -->
+    <string name="lbl_use_big_text">Use BigText Style</string>
+    <string name="lbl_show_subtext">Show SubText</string>
+    <string name="lbl_show_content_info">Show ContentInfo (Legacy)</string>
+    <string name="lbl_show_large_icon">Show Large Icon</string>
+    <string name="lbl_show_big_picture">Show Big Picture Style</string>
+    <string name="lbl_group_notifications">Group notifications</string>
+    <string name="lbl_use_chronometer">Use chronometer (Timer style)</string>
+
+    <!-- Notification Behavior -->
+    <string name="lbl_enable_sound">Enable Default Sound</string>
+    <string name="lbl_enable_led">Blink LED</string>
+    <string name="lbl_is_persistent">Persistent (Non-swipeable)</string>
+    <string name="lbl_include_actions">Include Action Buttons</string>
+    <string name="lbl_full_screen_intent">Full-screen intent (Alarm style)</string>
+
+    <!-- Lock Screen Visibility Labels -->
+    <string name="lbl_lockscreen_visibility">Lock Screen Visibility</string>
+
+
+    <!-- Category Headers -->
+    <string name="header_behavior">Behavior</string>
+    <string name="header_timing">Timing</string>
+    <string name="header_visual_style">Visual Style</string>
+    <string name="header_sensory">Sensory</string>
+    <string name="header_system_config">System Config</string>
+
+<!--    <string-array name="visibility_array">-->
+<!--        <item>@string/visibility_public</item>-->
+<!--        <item>@string/visibility_private</item>-->
+<!--        <item>@string/visibility_secret</item>-->
+<!--    </string-array>-->
+
+    <string-array name="visibility_array">
+        <item>Public (Show all content)</item>
+        <item>Private (Hide sensitive content)</item>
+        <item>Secret (Hide completely)</item>
+    </string-array>
 
     <string-array name="importance_array">
         <item>Urgent</item>

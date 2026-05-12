@@ -17,4 +17,26 @@
 
     <dimen name="switch_padding_start">4dp</dimen>
 
+    <dimen name="settings_icons_layout_size">48dp</dimen>
+    <dimen name="settings_icons_size">36dp</dimen>
+
+    <!-- Standard touch target for interactive elements -->
+    <dimen name="min_touch_target">48dp</dimen>
+    <dimen name="separator_height">1dp</dimen>
+
+    <!-- Text Sizes -->
+    <item name="text_size_title" type="dimen">24sp</item>
+    <item name="text_size_category_header" type="dimen">17.5sp</item>
+    <item name="text_size_body_standard" type="dimen">16.5sp</item>
+    <item name="text_size_small_label" type="dimen">14sp</item>
+
+    <!-- Spacing & Lettering -->
+    <item name="letter_spacing_header" type="dimen">0.05</item> <!-- Note: will use as a float in styles -->
+    <item name="margin_category_bottom" type="dimen">4dp</item>
+    <item name="margin_label_top" type="dimen">8dp</item>
+
+    <!-- View Specific -->
+    <dimen name="drag_view_width">40dp</dimen>
+    <dimen name="drag_view_height">4dp</dimen>
+
 </resources>

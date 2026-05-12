@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.NotificationTestTool" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.NotificationTestTool" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 <!--         Primary brand color.-->
 <!--        <item name="colorPrimary">@color/purple_200</item>-->
 <!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
@@ -14,6 +14,10 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Navigation bar color -->
+        <item name="android:navigationBarColor">@color/md_theme_surface</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
 
         <!-- Customize your theme here. -->
 

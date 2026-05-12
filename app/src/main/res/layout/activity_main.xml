@@ -9,8 +9,19 @@
     android:background="@color/md_theme_background"
     tools:context=".ui.MainActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/md_theme_primary"
+        app:title="@string/app_name"
+        app:titleTextColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Move your existing ConstraintLayout content below this toolbar -->
+
     <LinearLayout
-        android:id="@+id/ll_notification_title"
+        android:id="@+id/llNotificationTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/edt_margin_hor"
@@ -19,11 +30,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/guideline"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_notification_title1"
+            android:id="@+id/tilNotificationTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_vertical_normal"
@@ -37,7 +48,7 @@
             app:boxCornerRadiusBottomStart="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_notification_title"
+                android:id="@+id/edtNotificationTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -45,13 +56,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_notification_body"
+            android:id="@+id/tilNotificationBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/edt_spacer_vert"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_notification_title"
+            app:layout_constraintTop_toBottomOf="@id/llNotificationTitle"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             app:boxCornerRadiusTopStart="@dimen/btn_corner_radius"
             app:boxCornerRadiusTopEnd="@dimen/btn_corner_radius"
@@ -59,7 +70,7 @@
             app:boxCornerRadiusBottomStart="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_notification_body"
+                android:id="@+id/edtNotificationBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start|top"
@@ -71,20 +82,20 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
-            android:id="@+id/ll_send_buttons"
+            android:id="@+id/llSendButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/edt_spacer_vert"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_send_notification"
+                android:id="@+id/btnSendNotification"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="@dimen/margin_horizontal_middle"
-                android:text="@string/btn_send_notification"
-                app:layout_constraintEnd_toStartOf="@id/btn_stop_periodical_notifications"
+                android:text="@string/lbl_send_notification"
+                app:layout_constraintEnd_toStartOf="@id/btnStopPeriodicalNotifications"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -93,237 +104,20 @@
                 app:strokeColor="@color/md_theme_primary" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_stop_periodical_notifications"
+                android:id="@+id/btnStopPeriodicalNotifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_horizontal_middle"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btn_send_notification"
+                app:layout_constraintStart_toEndOf="@id/btnSendNotification"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 style="@style/Widget.MaterialComponents.Button"
-                android:text="@string/btn_stop"
+                android:text="@string/lbl_stop"
                 app:cornerRadius="@dimen/btn_corner_radius"
                 app:strokeColor="@color/md_theme_primary"
                 android:visibility="gone"
                 tools:visibility="visible"/>
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.5"
-        android:orientation="horizontal" />
-
-
-    <LinearLayout
-        android:id="@+id/ll_switch_advanced"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/edt_margin_hor"
-        android:layout_marginTop="@dimen/margin_vertical_normal"
-        android:layout_marginBottom="@dimen/margin_vertical_normal"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_advanced"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/advanced"
-            android:paddingHorizontal="@dimen/switch_padding_start" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_switches"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:weightSum="2"
-        android:layout_marginHorizontal="@dimen/edt_margin_hor"
-        android:layout_marginTop="@dimen/margin_vertical_normal"
-        android:layout_marginBottom="@dimen/margin_vertical_normal"
-        app:layout_constraintTop_toBottomOf="@id/ll_switch_advanced"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switch_use_defaults"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/use_defaults"
-                    android:paddingHorizontal="@dimen/switch_padding_start" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switch_overwrite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/overwrite"
-                    android:paddingHorizontal="@dimen/switch_padding_start" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switch_vibration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vibration"
-                    android:paddingHorizontal="@dimen/switch_padding_start" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switch_multiline_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/multiline_text"
-                    android:paddingHorizontal="@dimen/switch_padding_start" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_setting_spinners"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/edt_margin_hor"
-        android:layout_marginTop="@dimen/margin_vertical_normal"
-        android:layout_marginBottom="@dimen/margin_vertical_normal"
-        app:layout_constraintTop_toBottomOf="@id/ll_switches"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/ll_spinners"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/ll_periods"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sending_periods"/>
-
-                <Spinner
-                    android:id="@+id/sp_periods"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
-                    android:entries="@array/periods_array"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/sending_delays"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sending_delays"/>
-
-                <Spinner
-                    android:id="@+id/sp_delays"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
-                    android:entries="@array/delays_array"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_notification_importance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/notification_importance"/>
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:entries="@array/importance_array"/>
         </LinearLayout>
     </LinearLayout>
 

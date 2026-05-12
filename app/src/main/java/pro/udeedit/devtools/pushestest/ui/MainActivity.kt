@@ -12,13 +12,16 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -35,12 +38,12 @@ import pro.udeedit.devtools.pushestest.databinding.ActivityMainBinding
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_ID
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_NAME
 import pro.udeedit.devtools.pushestest.utils.DEFAULT_NOTIF_ID
-import pro.udeedit.devtools.pushestest.utils.PREF_ADVANCED_SETUP
-import pro.udeedit.devtools.pushestest.utils.PREF_DEFAULT_TEXTS
+import pro.udeedit.devtools.pushestest.utils.PREF_USE_MOCK_DATA
 import pro.udeedit.devtools.pushestest.utils.PREF_MULTILINE_NOTIFICATION
 import pro.udeedit.devtools.pushestest.utils.PREF_OVERWRITE_NOTIFICATION
 import pro.udeedit.devtools.pushestest.utils.PREF_VIBRATION_ON_ERROR
 import pro.udeedit.devtools.pushestest.utils.REQUEST_PERMISSION_CODE
+import kotlin.jvm.java
 
 private const val TAG = "MainActivity"
 
@@ -68,7 +71,6 @@ class MainActivity : AppCompatActivity() {
     
     var isRecreated = false
 
-    var advancedSetup: Boolean = false
     var defaultTexts: Boolean = false
     var overwriteNotification: Boolean = false
     var vibrationOnError: Boolean = false
@@ -86,6 +88,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        setSupportActionBar(binding.toolbar)
 
         // setup window view
         setupWindow()
@@ -106,19 +110,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnSendNotification.setOnClickListener {
-            onSendNotification()
+            // test delay
+            Handler(Looper.getMainLooper()).postDelayed({
+                onSendNotification()
+            }, 5000)
+
+//            onSendNotification()
         }
 
-        binding.switchAdvanced?.setOnCheckedChangeListener { _, isChecked ->
-            setupAdvancedViews(isChecked)
-        }
-
-        binding.switchMultilineText?.setOnCheckedChangeListener { _, isChecked ->
-            setupMultilineNotification(isChecked)
-        }
+//        binding.switchAdvanced?.setOnCheckedChangeListener { _, isChecked ->
+//            setupAdvancedViews(isChecked)
+//        }
+//        binding.switchMultilineText?.setOnCheckedChangeListener { _, isChecked ->
+//            setupMultilineNotification(isChecked)
+//        }
 
         retrievePreferences()
-        setupAdvancedViews(advancedSetup)
         setupMultilineNotification(multilineBody)
     }
 
@@ -128,9 +135,34 @@ class MainActivity : AppCompatActivity() {
         requestSinglePermission()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_settings) {
+            // Launch the Bottom Sheet instead of an Activity
+            val settingsSheet = SettingsBottomSheet()
+            settingsSheet.show(supportFragmentManager, SettingsBottomSheet.TAG)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * Public function so the BottomSheet can tell the Activity
+     * to refresh its configuration when closed.
+     */
+    fun refreshSettingsFromStorage() {
+        retrievePreferences()
+        setupMultilineNotification(multilineBody)
+        // Any other UI updates that depend on settings
+    }
+
+
     private fun retrievePreferences() {
-        advancedSetup = CushyStorage.getBoolean(PREF_ADVANCED_SETUP, false)
-        defaultTexts  = CushyStorage.getBoolean(PREF_DEFAULT_TEXTS, false)
+        defaultTexts  = CushyStorage.getBoolean(PREF_USE_MOCK_DATA, false)
         overwriteNotification = CushyStorage.getBoolean(PREF_OVERWRITE_NOTIFICATION, false)
         vibrationOnError = CushyStorage.getBoolean(PREF_VIBRATION_ON_ERROR, true)
         multilineBody = CushyStorage.getBoolean(PREF_MULTILINE_NOTIFICATION, false)
@@ -144,20 +176,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupAdvancedViews(isChecked: Boolean) {
-        if (isChecked) {
-            binding.llSwitches?.visibility = View.VISIBLE
-            binding.llSpinners?.visibility = View.VISIBLE
-            binding.llNotificationImportance?.visibility = View.VISIBLE
-
-        } else {
-            binding.llSwitches?.visibility = View.GONE
-            binding.llSpinners?.visibility = View.GONE
-            binding.llNotificationImportance?.visibility = View.GONE
-        }
-
-        CushyStorage.saveBoolean(PREF_ADVANCED_SETUP, isChecked)
-    }
+//    private fun setupAdvancedViews(isChecked: Boolean) {
+//        if (isChecked) {
+//            binding.llSwitches?.visibility = View.VISIBLE
+//            binding.llSpinners?.visibility = View.VISIBLE
+//            binding.llNotificationImportance?.visibility = View.VISIBLE
+//        } else {
+//            binding.llSwitches?.visibility = View.GONE
+//            binding.llSpinners?.visibility = View.GONE
+//            binding.llNotificationImportance?.visibility = View.GONE
+//        }
+//
+//        CushyStorage.saveBoolean(PREF_ADVANCED_SETUP, isChecked)
+//    }
 
     private fun setupDefaultTexts(isChecked: Boolean) {
         if (isChecked) {
@@ -166,7 +197,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        CushyStorage.saveBoolean(PREF_DEFAULT_TEXTS, isChecked)
+        CushyStorage.saveBoolean(PREF_USE_MOCK_DATA, isChecked)
     }
 
     private fun setupOverwriteNotification(isChecked: Boolean) {

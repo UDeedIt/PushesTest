@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/md_theme_surface"
+    android:padding="@dimen/margin_vertical_middle">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Drag handle -->
+        <View
+            android:layout_width="@dimen/drag_view_width"
+            android:layout_height="@dimen/drag_view_height"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/margin_vertical_normal"
+            android:background="@color/md_theme_outlineVariant" />
+
+        <!-- Header Container -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/margin_vertical_normal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnResetSettings"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="@dimen/settings_icons_layout_size"
+                android:layout_height="@dimen/settings_icons_layout_size"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="0dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/rounded_settings_backup_restore_24"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="@dimen/settings_icons_size"
+                app:iconTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tvTitleSettings"
+                style="@style/SettingsTitleText"
+                android:layout_centerInParent="true"
+                android:text="@string/settings" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCloseSettings"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="@dimen/settings_icons_layout_size"
+                android:layout_height="@dimen/settings_icons_layout_size"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="0dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/rounded_close_24"
+                app:iconGravity="textEnd"
+                app:iconPadding="0dp"
+                app:iconSize="@dimen/settings_icons_size"
+                app:iconTint="?attr/colorPrimary" />
+        </RelativeLayout>
+
+
+        <!-- CATEGORY: BEHAVIOR -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_behavior" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchUseMockData"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/use_mock_data" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchOverwrite"
+            style="@style/SettingsSwitchText"
+            android:checked="true"
+            android:text="@string/overwrite" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchPersistent"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_is_persistent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchMultilineText"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/multiline_text" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchFullScreen"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_full_screen_intent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchGrouped"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_group_notifications" />
+
+
+        <!-- CATEGORY: TIMING -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_timing" />
+
+        <TextView
+            style="@style/SettingsLabelText"
+            android:text="@string/sending_periods" />
+
+        <Spinner
+            android:id="@+id/spPeriods"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target"
+            android:entries="@array/periods_array" />
+
+        <TextView
+            style="@style/SettingsLabelText"
+            android:text="@string/sending_delays" />
+
+        <Spinner
+            android:id="@+id/spDelays"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target"
+            android:entries="@array/delays_array" />
+
+
+        <!-- CATEGORY: VISUAL STYLE -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_visual_style" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchBigText"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_use_big_text" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchBigPicture"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_show_big_picture" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchActionButtons"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_include_actions" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchSubText"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_show_subtext" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchContentInfo"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_show_content_info" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchLargeIcon"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_show_large_icon" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchChronometer"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_use_chronometer" />
+
+
+        <!-- CATEGORY: SENSORY -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_sensory" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchVibration"
+            style="@style/SettingsSwitchText"
+            android:checked="true"
+            android:text="@string/vibration" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchSound"
+            style="@style/SettingsSwitchText"
+            android:checked="true"
+            android:text="@string/lbl_enable_sound" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchLED"
+            style="@style/SettingsSwitchText"
+            android:checked="false"
+            android:text="@string/lbl_enable_led" />
+
+
+        <!-- CATEGORY: SYSTEM CONFIG -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_system_config" />
+
+        <TextView
+            style="@style/SettingsLabelText"
+            android:text="@string/notification_importance" />
+
+        <Spinner
+            android:id="@+id/spImportance"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target"
+            android:entries="@array/importance_array" />
+
+        <TextView
+            style="@style/SettingsLabelText"
+            android:text="@string/lbl_lockscreen_visibility" />
+
+        <Spinner
+            android:id="@+id/spVisibility"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target"
+            android:layout_marginBottom="@dimen/margin_vertical_large"
+            android:entries="@array/visibility_array" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

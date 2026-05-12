@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    &lt;!&ndash; ON state &ndash;&gt;-->
+<!--    <item android:state_checked="true" android:color="@color/md_theme_primary" />-->
+<!--    &lt;!&ndash; OFF state &ndash;&gt;-->
+<!--    <item android:state_checked="false" android:color="@color/md_theme_outline" />-->
+<!--</selector>-->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- ON state: Deep Container Blue (very visible in Dark Mode) -->
+<item android:state_checked="true" android:color="@color/md_theme_primaryContainer" />
+<!-- OFF state: Dark surface variant -->
+<item android:state_checked="false" android:color="@color/md_theme_surfaceVariant" />
+</selector>
