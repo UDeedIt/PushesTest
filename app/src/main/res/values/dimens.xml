@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Set to a very high value so it acts like "fill the available space" -->
+    <dimen name="main_container_width">1000dp</dimen>
+
     <dimen name="edt_margin_hor">32dp</dimen>
     <dimen name="edt_spacer_vert">16dp</dimen>
     <dimen name="btn_margin_vert">24dp</dimen>
@@ -13,7 +16,7 @@
     <dimen name="margin_vertical_normal">8dp</dimen>
     <dimen name="margin_vertical_middle">16dp</dimen>
     <dimen name="margin_vertical_large">24dp</dimen>
-    <dimen name="margin_vertical_huge">48dp</dimen>
+    <dimen name="margin_vertical_huge">128dp</dimen>
 
     <dimen name="switch_padding_start">4dp</dimen>
 
@@ -31,12 +34,13 @@
     <item name="text_size_small_label" type="dimen">14sp</item>
 
     <!-- Spacing & Lettering -->
-    <item name="letter_spacing_header" type="dimen">0.05</item> <!-- Note: will use as a float in styles -->
+    <item name="letter_spacing_header" translatable="false" type="string">0.05</item> <!-- Note: will use as a float in styles -->
     <item name="margin_category_bottom" type="dimen">4dp</item>
     <item name="margin_label_top" type="dimen">8dp</item>
 
     <!-- View Specific -->
     <dimen name="drag_view_width">40dp</dimen>
     <dimen name="drag_view_height">4dp</dimen>
+    <dimen name="button_height">64dp</dimen>
 
 </resources>

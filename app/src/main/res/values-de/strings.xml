@@ -3,10 +3,11 @@
     <string name="app_name">Pushes Test</string>
 
     <string name="lbl_send_notification">Benachrichtigung senden</string>
-    <string name="lbl_stop">Aufhören</string>
+    <string name="lbl_stop_sending">Aufhören</string>
 
     <string name="hint_notification_title">Benachrichtigungstitel</string>
     <string name="hint_notification_body">Benachrichtigungstext</string>
+    <string name="hint_expandable">Für Details erweitern</string>
 
     <string name="advanced">Erweiterte Einrichtungen</string>
     <string name="use_mock_data">Mock-Daten verwenden</string>
@@ -17,8 +18,14 @@
     <string name="sending_delays">Sendeverzögerungen:</string>
     <string name="notification_importance">Benachrichtigungspriorität:</string>
 
-    <!-- Warnings -->
+    <!-- Warnings and Infos -->
+    <string name="snack_notif_sent">Benachrichtigung ist gesendet!</string>
+    <string name="snack_action_dismiss_all">Alle löschen</string>
     <string name="settings_reset_msg">Einstellungen sind auf Standard zurückgesetzt</string>
+    <string name="warn_empty_fields">Benachrichtigung mit leeren Feldern wird gesendet…</string>
+    <string name="warn_empty_notif">Leere Benachrichtigung zu Testzwecken gesendet…</string>
+    <string name="snack_scheduled">Benachrichtigung geplant in %1$d Sekunden</string>
+    <string name="snack_periodic_stopped">Periodischer Test gestoppt</string>
 
     <!-- Permissions -->
     <string name="permission_is_already_allowed">Berechtigung ist bereits vom Benutzer erlaubt</string>
@@ -33,9 +40,10 @@
     <!-- Notification Content & Style -->
     <string name="lbl_use_big_text">BigText-Stil verwenden</string>
     <string name="lbl_show_subtext">SubText anzeigen</string>
-    <string name="lbl_show_content_info">ContentInfo anzeigen (Veraltet)</string>
+<!--    <string name="lbl_show_content_info">ContentInfo anzeigen (Veraltet)</string>-->
     <string name="lbl_show_large_icon">Großes Icon anzeigen</string>
-    <string name="lbl_show_big_picture">Großes Bild anzeigen</string>
+    <string name="lbl_show_big_picture">Großes Bild anzeigen (BigPicture-Stil)</string>
+    <string name="lbl_use_inbox_style">Inbox-Stil verwenden (Zeilenliste)</string>
     <string name="lbl_group_notifications">Benachrichtigungen gruppieren</string>
     <string name="lbl_use_chronometer">Chronometer verwenden (Timer-Stil)</string>
 

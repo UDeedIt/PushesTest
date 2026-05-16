@@ -5,7 +5,6 @@ const val REQUEST_PERMISSION_CODE = 100
 
 // in-app notifications
 const val CHANNEL_ID = "pro.udeedit.devtools.pushestest.channel_id"
-const val CHANNEL_NAME = "Pushes Test Notifications Channel"
 const val DEFAULT_NOTIF_ID = 0
 
 // Pushes Preferences
@@ -25,14 +24,15 @@ const val PREF_DELAYS_POS = "pref_delays_pos"
 // Visual Style
 const val PREF_USE_BIG_TEXT = "pref_use_big_text"
 const val PREF_SHOW_BIG_PICTURE = "pref_show_big_picture"
+const val PREF_USE_INBOX_STYLE = "pref_use_inbox_style"
 const val PREF_INCLUDE_ACTIONS = "pref_include_actions"
 const val PREF_SHOW_SUBTEXT = "pref_show_subtext"
-const val PREF_SHOW_CONTENT_INFO = "pref_show_content_info"
+//const val PREF_SHOW_CONTENT_INFO = "pref_show_content_info"
 const val PREF_SHOW_LARGE_ICON = "pref_show_large_icon"
 const val PREF_CHRONOMETER = "pref_chronometer"
 
 // Sensory
-const val PREF_VIBRATION_ON_ERROR = "pref_vibration_on_error"
+const val PREF_VIBRATION_ON = "pref_vibration"
 const val PREF_ENABLE_SOUND = "pref_enable_sound"
 const val PREF_ENABLE_LED = "pref_enable_led"
 
@@ -51,12 +51,13 @@ const val DEF_PERIODS_POS = 0
 const val DEF_DELAYS_POS = 0
 const val DEF_USE_BIG_TEXT = false
 const val DEF_SHOW_BIG_PICTURE = false
+const val DEF_USE_INBOX_STYLE = false
 const val DEF_INCLUDE_ACTIONS = false
 const val DEF_SHOW_SUBTEXT = false
-const val DEF_SHOW_CONTENT_INFO = false
+//const val DEF_SHOW_CONTENT_INFO = false
 const val DEF_SHOW_LARGE_ICON = false
 const val DEF_CHRONOMETER = false
-const val DEF_VIBRATION_ON_ERROR = true
+const val DEF_VIBRATION_ON = true
 const val DEF_ENABLE_SOUND = true
 const val DEF_ENABLE_LED = false
 const val DEF_IMPORTANCE_POS = 1

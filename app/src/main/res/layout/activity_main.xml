@@ -13,112 +13,115 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/md_theme_primary"
+        android:background="@color/md_theme_surface"
+        app:titleTextColor="?attr/colorPrimary"
         app:title="@string/app_name"
-        app:titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Move your existing ConstraintLayout content below this toolbar -->
-
-    <LinearLayout
-        android:id="@+id/llNotificationTitle"
+    <!-- Professional 1dp Divider -->
+    <View
+        android:id="@+id/toolbarDivider"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/edt_margin_hor"
-        android:layout_marginTop="@dimen/margin_vertical_huge"
-        android:layout_marginBottom="@dimen/margin_vertical_normal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical">
+        android:layout_height="1dp"
+        android:background="@color/md_theme_outlineVariant"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilNotificationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_vertical_normal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            app:boxCornerRadiusTopStart="@dimen/btn_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/btn_corner_radius"
-            app:boxCornerRadiusBottomEnd="0dp"
-            app:boxCornerRadiusBottomStart="0dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtNotificationTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="@string/hint_notification_title" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilNotificationBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/edt_spacer_vert"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/llNotificationTitle"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            app:boxCornerRadiusTopStart="@dimen/btn_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/btn_corner_radius"
-            app:boxCornerRadiusBottomEnd="0dp"
-            app:boxCornerRadiusBottomStart="0dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtNotificationBody"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:minLines="1"
-                android:maxLines="4"
-                tools:minLines="4"
-                android:hint="@string/hint_notification_body" />
-        </com.google.android.material.textfield.TextInputLayout>
+    <FrameLayout
+        android:id="@+id/flButtonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarDivider"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
-            android:id="@+id/llSendButtons"
+            android:id="@+id/llNotificationTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/edt_spacer_vert"
-            android:orientation="horizontal">
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="@dimen/main_container_width"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/edt_margin_hor"
+            android:layout_marginTop="@dimen/margin_vertical_huge">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSendNotification"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNotificationTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="@dimen/margin_horizontal_middle"
-                android:text="@string/lbl_send_notification"
-                app:layout_constraintEnd_toStartOf="@id/btnStopPeriodicalNotifications"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="@dimen/margin_vertical_normal"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                style="@style/Widget.MaterialComponents.Button"
-                app:cornerRadius="@dimen/btn_corner_radius"
-                app:strokeColor="@color/md_theme_primary" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnStopPeriodicalNotifications"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_horizontal_middle"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnSendNotification"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                style="@style/Widget.MaterialComponents.Button"
-                android:text="@string/lbl_stop"
-                app:cornerRadius="@dimen/btn_corner_radius"
-                app:strokeColor="@color/md_theme_primary"
-                android:visibility="gone"
-                tools:visibility="visible"/>
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                app:boxCornerRadiusTopStart="@dimen/btn_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/btn_corner_radius"
+                app:boxCornerRadiusBottomEnd="0dp"
+                app:boxCornerRadiusBottomStart="0dp"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/rounded_settings_backup_restore_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtNotificationTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:hint="@string/hint_notification_title" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNotificationBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/edt_spacer_vert"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llNotificationTitle"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                app:boxCornerRadiusTopStart="@dimen/btn_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/btn_corner_radius"
+                app:boxCornerRadiusBottomEnd="0dp"
+                app:boxCornerRadiusBottomStart="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtNotificationBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:lines="2"
+                    android:minLines="2"
+                    android:maxLines="2"
+                    android:hint="@string/hint_notification_body"
+                    tools:minLines="2" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/llSendButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/edt_spacer_vert"
+                android:orientation="horizontal">
+
+                <!-- The Primary Send Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSendNotification"
+                    style="@style/D2DButton.Send"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:text="@string/lbl_send_notification"
+                    android:visibility="visible"
+                    tools:visibility="gone"/>
+
+                <!-- The Stop Button (Hidden by default, same size as Send) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStopPeriodicalNotifications"
+                    style="@style/D2DButton.Stop"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:text="@string/lbl_stop_sending"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

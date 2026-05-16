@@ -1,0 +1,34 @@
+<resources>
+    <!-- Technical mapping for Importance (0: Urgent, 1: High, 2: Medium, 3: Low) -->
+    <!-- Maps to: IMPORTANCE_HIGH (4), IMPORTANCE_DEFAULT (3), IMPORTANCE_LOW (2), IMPORTANCE_MIN (1) -->
+    <integer-array name="importance_values_array">
+        <item>4</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </integer-array>
+
+    <!-- Technical mapping for Visibility (0: Public, 1: Private, 2: Secret) -->
+    <!-- Maps to: VISIBILITY_PUBLIC (1), VISIBILITY_PRIVATE (0), VISIBILITY_SECRET (-1) -->
+    <integer-array name="visibility_values_array">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </integer-array>
+
+    <!-- Timing values (already discussed) -->
+    <integer-array name="delays_values_array">
+        <item>0</item>
+        <item>10000</item>
+        <item>30000</item>
+        <item>60000</item>
+    </integer-array>
+
+    <integer-array name="periods_values_array">
+        <item>0</item>     <!-- Single-shot -->
+        <item>10000</item> <!-- 10 seconds -->
+        <item>30000</item> <!-- 30 seconds -->
+        <item>60000</item> <!-- 60 seconds -->
+    </integer-array>
+
+</resources>

@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Keep the UI centered and narrow for better readability on tablets -->
+    <!-- This will "clamp" the width to 500dp on large screens -->
+    <dimen name="main_container_width">500dp</dimen>
+
     <dimen name="edt_margin_hor">64dp</dimen>
     <dimen name="edt_spacer_vert">24dp</dimen>
     <dimen name="btn_margin_vert">32dp</dimen>
     <dimen name="btn_corner_radius">6dp</dimen>
+
+    <dimen name="margin_vertical_huge">200dp</dimen>
+
+    <dimen name="button_height">72dp</dimen>
 
 </resources>

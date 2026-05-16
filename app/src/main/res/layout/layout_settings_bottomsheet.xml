@@ -159,6 +159,11 @@
             android:text="@string/lbl_show_big_picture" />
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchInboxStyle"
+            style="@style/SettingsSwitchText"
+            android:text="@string/lbl_use_inbox_style" />
+
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchActionButtons"
             style="@style/SettingsSwitchText"
             android:checked="false"
@@ -170,11 +175,12 @@
             android:checked="false"
             android:text="@string/lbl_show_subtext" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchContentInfo"
-            style="@style/SettingsSwitchText"
-            android:checked="false"
-            android:text="@string/lbl_show_content_info" />
+        <!-- TODO: Remove it -->
+<!--        <androidx.appcompat.widget.SwitchCompat-->
+<!--            android:id="@+id/switchContentInfo"-->
+<!--            style="@style/SettingsSwitchText"-->
+<!--            android:checked="false"-->
+<!--            android:text="@string/lbl_show_content_info" />-->
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchLargeIcon"
