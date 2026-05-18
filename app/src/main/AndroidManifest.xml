@@ -4,13 +4,14 @@
 
     <!-- Allows an app to post notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"
+        tools:ignore="FullScreenIntentPolicy" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".PtApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -24,6 +25,9 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:showOnLockScreen="true"
             android:theme="@style/Theme.NotificationTestTool"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
 

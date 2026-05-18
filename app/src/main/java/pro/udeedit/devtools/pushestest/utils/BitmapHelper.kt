@@ -7,15 +7,20 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.createBitmap
 
-fun getBitmapFromDrawable(context: Context, drawableId: Int): Bitmap? {
+fun getBitmapFromDrawable(context: Context, drawableId: Int, tintColor: Int? = null): Bitmap? {
     val drawable = ContextCompat.getDrawable(context, drawableId) ?: return null
 
-    // 1. If it's already a Bitmap (PNG/JPG), return it directly
+    // Apply the tint to the vector before drawing it
+    tintColor?.let {
+        androidx.core.graphics.drawable.DrawableCompat.setTint(drawable, it)
+    }
+
+    // If it's already a Bitmap (PNG/JPG), return it directly
     if (drawable is BitmapDrawable) {
         return drawable.bitmap
     }
 
-    // 2. If it's a Vector (XML), draw it onto a new Bitmap
+    // If it's a Vector (XML), draw it onto a new Bitmap
     val bitmap = createBitmap(
         drawable.intrinsicWidth.coerceAtLeast(1),
         drawable.intrinsicHeight.coerceAtLeast(1),

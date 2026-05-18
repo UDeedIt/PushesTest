@@ -63,14 +63,12 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
             switchBigPicture.isChecked = CushyStorage.getBoolean(PREF_SHOW_BIG_PICTURE, DEF_SHOW_BIG_PICTURE)
             switchActionButtons.isChecked = CushyStorage.getBoolean(PREF_INCLUDE_ACTIONS, DEF_INCLUDE_ACTIONS)
             switchSubText.isChecked = CushyStorage.getBoolean(PREF_SHOW_SUBTEXT, DEF_SHOW_SUBTEXT)
-//            switchContentInfo.isChecked = CushyStorage.getBoolean(PREF_SHOW_CONTENT_INFO, DEF_SHOW_CONTENT_INFO)
             switchLargeIcon.isChecked = CushyStorage.getBoolean(PREF_SHOW_LARGE_ICON, DEF_SHOW_LARGE_ICON)
             switchChronometer.isChecked = CushyStorage.getBoolean(PREF_CHRONOMETER, DEF_CHRONOMETER)
 
             // SENSORY
             switchVibration.isChecked = CushyStorage.getBoolean(PREF_VIBRATION_ON, DEF_VIBRATION_ON)
             switchSound.isChecked = CushyStorage.getBoolean(PREF_ENABLE_SOUND, DEF_ENABLE_SOUND)
-            switchLED.isChecked = CushyStorage.getBoolean(PREF_ENABLE_LED, DEF_ENABLE_LED)
 
             // SYSTEM CONFIG
             spImportance.setSelection(CushyStorage.getInt(PREF_IMPORTANCE_POS, DEF_IMPORTANCE_POS))
@@ -84,11 +82,40 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
             btnResetSettings.setOnClickListener { resetToDefaults() }
 
             // BEHAVIOR
-            switchUseMockData.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_USE_MOCK_DATA, b) }
-            switchOverwrite.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_OVERWRITE_NOTIFICATION, b) }
-            switchPersistent.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_IS_PERSISTENT, b) }
-            switchMultilineText.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_MULTILINE_NOTIFICATION, b) }
-            switchGrouped.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_GROUPED_NOTIFICATIONS, b) }
+            switchUseMockData.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_USE_MOCK_DATA,
+                    b
+                )
+            }
+
+            switchOverwrite.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_OVERWRITE_NOTIFICATION,
+                    b
+                )
+            }
+
+            switchPersistent.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_IS_PERSISTENT,
+                    b
+                )
+            }
+
+            switchMultilineText.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_MULTILINE_NOTIFICATION,
+                    b
+                )
+            }
+
+            switchGrouped.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_GROUPED_NOTIFICATIONS,
+                    b
+                )
+            }
 
             //handle this with permissions
             switchFullScreen.setOnCheckedChangeListener { _, isChecked ->
@@ -98,7 +125,12 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
                     val manager = requireContext().getSystemService(NotificationManager::class.java)
                     if (!manager.canUseFullScreenIntent()) {
                         // User hasn't allowed it yet, send them to settings
-                        Toast.makeText(requireContext(), "Please allow Full Screen Intents in settings", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.warn_grant_full_screen),
+                            Toast.LENGTH_LONG
+                        ).show()
+
                         val intent = Intent(Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT)
                         intent.data = "package:${requireContext().packageName}".toUri()
                         startActivity(intent)
@@ -147,22 +179,195 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
                 CushyStorage.saveBoolean(PREF_USE_INBOX_STYLE, isChecked)
             }
 
-            switchActionButtons.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_INCLUDE_ACTIONS, b) }
-            switchSubText.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_SHOW_SUBTEXT, b) }
-//            switchContentInfo.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_SHOW_CONTENT_INFO, b) }
-            switchLargeIcon.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_SHOW_LARGE_ICON, b) }
-            switchChronometer.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_CHRONOMETER, b) }
+            switchActionButtons.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_INCLUDE_ACTIONS,
+                    b
+                )
+            }
+
+            switchSubText.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_SHOW_SUBTEXT,
+                    b
+                )
+            }
+
+            switchLargeIcon.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_SHOW_LARGE_ICON,
+                    b
+                )
+            }
+
+            switchChronometer.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_CHRONOMETER,
+                    b
+                )
+            }
 
             // SENSORY
-            switchVibration.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_VIBRATION_ON, b) }
-            switchSound.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_ENABLE_SOUND, b) }
-            switchLED.setOnCheckedChangeListener { _, b -> CushyStorage.saveBoolean(PREF_ENABLE_LED, b) }
+            switchVibration.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_VIBRATION_ON,
+                    b
+                )
+            }
+
+            switchSound.setOnCheckedChangeListener { _, b ->
+                CushyStorage.saveBoolean(
+                    PREF_ENABLE_SOUND,
+                    b
+                )
+            }
 
             // SPINNERS
             setupSpinnerListener(spPeriods, PREF_PERIODS_POS)
             setupSpinnerListener(spDelays, PREF_DELAYS_POS)
             setupSpinnerListener(spImportance, PREF_IMPORTANCE_POS)
             setupSpinnerListener(spVisibility, PREF_VISIBILITY_POS)
+
+
+            binding.apply {
+                // --- BEHAVIOR INFO ---
+                infoUseMockData.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelMockData,
+                        R.string.info_use_mock_body
+                    )
+                }
+
+                infoOverwrite.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelOverwrite,
+                        R.string.info_overwrite_body
+                    )
+                }
+
+                infoPersistent.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelPersistent,
+                        R.string.info_persistent_body
+                    )
+                }
+
+                infoMultiline.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelMultiline,
+                        R.string.info_multiline_body
+                    )
+                }
+
+                infoFullScreen.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelFullScreen,
+                        R.string.info_full_screen_body
+                    )
+                }
+
+                infoGrouped.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelGrouped,
+                        R.string.info_grouped_body
+                    )
+                }
+
+                // --- TIMING INFO ---
+                infoPeriods.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelPeriods,
+                        R.string.info_periods_body
+                    )
+                }
+
+                infoDelays.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelDelays,
+                        R.string.info_delays_body
+                    )
+                }
+
+                // --- VISUAL STYLE INFO ---
+                infoBigText.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelBigText,
+                        R.string.info_big_text_body
+                    )
+                }
+
+                infoBigPicture.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelBigPicture,
+                        R.string.info_big_picture_body
+                    )
+                }
+
+                infoInboxStyle.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelInbox,
+                        R.string.info_inbox_body
+                    )
+                }
+
+                infoActionButtons.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelActions,
+                        R.string.info_actions_body
+                    )
+                }
+
+                infoSubText.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelSubText,
+                        R.string.info_subtext_body
+                    )
+                }
+
+                infoLargeIcon.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelLargeIcon,
+                        R.string.info_large_icon_body
+                    )
+                }
+
+                infoChronometer.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelChronometer,
+                        R.string.info_chronometer_body
+                    )
+                }
+
+                // --- SENSORY INFO ---
+                infoVibration.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelVibration,
+                        R.string.info_vibration_body
+                    )
+                }
+
+                infoSound.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelSound,
+                        R.string.info_sound_body
+                    )
+                }
+
+                // --- SYSTEM CONFIG INFO ---
+                infoImportance.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelImportance,
+                        R.string.info_importance_body
+                    )
+                }
+
+                infoVisibility.setOnClickListener {
+                    showInfoDialog(
+                        tvLabelVisibility,
+                        R.string.info_visibility_body
+                    )
+                }
+            }
         }
     }
 
@@ -190,7 +395,6 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
         CushyStorage.saveBoolean(PREF_SHOW_BIG_PICTURE, DEF_SHOW_BIG_PICTURE)
         CushyStorage.saveBoolean(PREF_INCLUDE_ACTIONS, DEF_INCLUDE_ACTIONS)
         CushyStorage.saveBoolean(PREF_SHOW_SUBTEXT, DEF_SHOW_SUBTEXT)
-//        CushyStorage.saveBoolean(PREF_SHOW_CONTENT_INFO, DEF_SHOW_CONTENT_INFO)
         CushyStorage.saveBoolean(PREF_SHOW_LARGE_ICON, DEF_SHOW_LARGE_ICON)
         CushyStorage.saveBoolean(PREF_CHRONOMETER, DEF_CHRONOMETER)
         CushyStorage.saveBoolean(PREF_VIBRATION_ON, DEF_VIBRATION_ON)
@@ -212,5 +416,36 @@ class SettingsBottomSheet : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showInfoDialog(labelView: android.widget.TextView, messageResId: Int) {
+        // Get the raw string from resources
+        var message = getString(messageResId)
+
+        // If this is the BigText info, inject the resource integer
+        if (messageResId == R.string.info_big_text_body) {
+            val limit = resources.getInteger(R.integer.body_truncation_limit)
+            message = getString(messageResId, limit) // Injects 40 or 60 automatically
+        }
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_info_custom, null)
+
+        // Create the dialog
+        val dialog = android.app.AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        // Ensure the background is transparent so the CardView rounding is visible
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        // Set Data
+        dialogView.findViewById<android.widget.TextView>(R.id.dialogTitle).text = labelView.text
+        dialogView.findViewById<android.widget.TextView>(R.id.dialogMessage).text = message
+
+        dialogView.findViewById<View>(R.id.btnDialogClose).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

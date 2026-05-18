@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.graphics.createBitmap
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
@@ -34,6 +35,9 @@ import pro.udeedit.devtools.anarchist.AnarchistPermissionUtils
 import pro.udeedit.devtools.cushystorage.CushyStorage
 import pro.udeedit.devtools.pushestest.R
 import pro.udeedit.devtools.pushestest.databinding.ActivityMainBinding
+import pro.udeedit.devtools.pushestest.utils.getBitmapFromDrawable
+import pro.udeedit.devtools.pushestest.utils.PtLocaleUtils
+import pro.udeedit.devtools.pushestest.utils.PtMockDataUtils
 import pro.udeedit.devtools.pushestest.utils.CHANNEL_ID
 import pro.udeedit.devtools.pushestest.utils.DEFAULT_NOTIF_ID
 import pro.udeedit.devtools.pushestest.utils.DEF_CHRONOMETER
@@ -44,6 +48,7 @@ import pro.udeedit.devtools.pushestest.utils.DEF_GROUPED_NOTIFICATIONS
 import pro.udeedit.devtools.pushestest.utils.DEF_IMPORTANCE_POS
 import pro.udeedit.devtools.pushestest.utils.DEF_INCLUDE_ACTIONS
 import pro.udeedit.devtools.pushestest.utils.DEF_IS_PERSISTENT
+import pro.udeedit.devtools.pushestest.utils.DEF_MULTILINE_NOTIFICATION
 import pro.udeedit.devtools.pushestest.utils.DEF_OVERWRITE_NOTIFICATION
 import pro.udeedit.devtools.pushestest.utils.DEF_PERIODS_POS
 import pro.udeedit.devtools.pushestest.utils.DEF_SHOW_BIG_PICTURE
@@ -54,6 +59,7 @@ import pro.udeedit.devtools.pushestest.utils.DEF_USE_INBOX_STYLE
 import pro.udeedit.devtools.pushestest.utils.DEF_USE_MOCK_DATA
 import pro.udeedit.devtools.pushestest.utils.DEF_VIBRATION_ON
 import pro.udeedit.devtools.pushestest.utils.DEF_VISIBILITY_POS
+import pro.udeedit.devtools.pushestest.utils.GROUP_KEY
 import pro.udeedit.devtools.pushestest.utils.PREF_CHRONOMETER
 import pro.udeedit.devtools.pushestest.utils.PREF_DELAYS_POS
 import pro.udeedit.devtools.pushestest.utils.PREF_ENABLE_SOUND
@@ -73,16 +79,10 @@ import pro.udeedit.devtools.pushestest.utils.PREF_USE_BIG_TEXT
 import pro.udeedit.devtools.pushestest.utils.PREF_USE_INBOX_STYLE
 import pro.udeedit.devtools.pushestest.utils.PREF_VIBRATION_ON
 import pro.udeedit.devtools.pushestest.utils.PREF_VISIBILITY_POS
-import pro.udeedit.devtools.pushestest.utils.PtLocaleUtils
-import pro.udeedit.devtools.pushestest.utils.PtMockDataUtils
 import pro.udeedit.devtools.pushestest.utils.REQUEST_PERMISSION_CODE
-import pro.udeedit.devtools.pushestest.utils.getBitmapFromDrawable
-import kotlin.jvm.java
-import androidx.core.graphics.createBitmap
+import pro.udeedit.devtools.pushestest.utils.SUMMARY_ID
 
 private const val TAG = "MainActivity"
-private const val GROUP_KEY = "pro.udeedit.devtools.pushestest.WORK_GROUP"
-private const val SUMMARY_ID = 9999 // Fixed ID for the group header
 
 class MainActivity : AppCompatActivity() {
 
@@ -99,8 +99,10 @@ class MainActivity : AppCompatActivity() {
     // Vibrate 3 times with pauses
     val patternError = longArrayOf(0, 300, 100, 300, 100, 300)
 
+    private val vibrationDuration = 60L
     private val vibrationDurationSuccess = 500L
     private val vibrationDurationError = 1000L
+
 
     var defaultTexts: Boolean = false
     var overwriteNotification: Boolean = false
@@ -118,41 +120,17 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate")
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         setSupportActionBar(binding.toolbar)
-
-        // setup window view
-        setupWindow()
+        setupWindow() // setup window view
+        setupViews()
         createVibratorObject()
         createAllNotificationChannels()
-
-        binding.btnSendNotification.setOnClickListener {
-            onSendNotification()
-            // test
-//            publishLegacyContentInfoTest()
-//            publishFixedBigTextTest()
-//            publishFixedSubtextTest()
-        }
-
         refreshSettingsFromStorage()
-
-        binding.tilNotificationTitle.setEndIconOnClickListener {
-            if (CushyStorage.getBoolean(PREF_USE_MOCK_DATA, DEF_USE_MOCK_DATA)) {
-                val mock = PtMockDataUtils.getRandomMockData()
-                binding.edtNotificationTitle.setText(mock.title)
-                binding.edtNotificationBody.setText(mock.body)
-            }
-        }
-
-        binding.btnStopPeriodicalNotifications.setOnClickListener {
-            stopPeriodicNotifications()
-            Toast.makeText(this, getString(R.string.snack_periodic_stopped), Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onResume() {
@@ -182,6 +160,53 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+
+    private fun setupWindow() {
+        // This tells the OS to allow this specific activity to break through the lock screen
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true)
+            setTurnScreenOn(true)
+
+        } else {
+            @Suppress("DEPRECATION")
+            window.addFlags(
+                android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                        android.view.WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
+                        android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            )
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
+
+    private fun setupViews() {
+        // Refresh mocked data icon button
+        binding.tilNotificationTitle.setEndIconOnClickListener {
+            if (CushyStorage.getBoolean(PREF_USE_MOCK_DATA, DEF_USE_MOCK_DATA)) {
+                val mock = PtMockDataUtils.getRandomMockData()
+                binding.edtNotificationTitle.setText(mock.title)
+                binding.edtNotificationBody.setText(mock.body)
+            }
+        }
+
+        // Send Button
+        binding.btnSendNotification.setOnClickListener {
+            onSendNotification() // This already calls animateButtonClick
+        }
+
+        // Stop Button
+        binding.btnStopPeriodicalNotifications.setOnClickListener {
+            // Add the animation here as well
+            animateButtonClick(binding.btnStopPeriodicalNotifications)
+            stopPeriodicNotifications()
+            Toast.makeText(this, getString(R.string.snack_periodic_stopped), Toast.LENGTH_SHORT).show()
+        }
+    }
+
     /**
      * Public function so the BottomSheet can tell the Activity
      * to refresh its configuration when closed.
@@ -191,8 +216,14 @@ class MainActivity : AppCompatActivity() {
         checkPeriodicalNotificationsAlive()
         handleMockDataToggle()
         setupMultilineNotification(multilineBody)
+    }
 
-        // Any other UI updates that depend on settings
+    private fun retrievePreferences() {
+        defaultTexts = CushyStorage.getBoolean(PREF_USE_MOCK_DATA, false)
+        overwriteNotification = CushyStorage.getBoolean(PREF_OVERWRITE_NOTIFICATION, false)
+        vibrationOnError = CushyStorage.getBoolean(PREF_VIBRATION_ON, true)
+        multilineBody = CushyStorage.getBoolean(PREF_MULTILINE_NOTIFICATION, false) ||
+                CushyStorage.getBoolean(PREF_USE_BIG_TEXT, false)
     }
 
     private fun checkPeriodicalNotificationsAlive() {
@@ -204,27 +235,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun retrievePreferences() {
-        defaultTexts = CushyStorage.getBoolean(PREF_USE_MOCK_DATA, false)
-        overwriteNotification = CushyStorage.getBoolean(PREF_OVERWRITE_NOTIFICATION, false)
-        vibrationOnError = CushyStorage.getBoolean(PREF_VIBRATION_ON, true)
-        multilineBody = CushyStorage.getBoolean(PREF_MULTILINE_NOTIFICATION, false) ||
-                CushyStorage.getBoolean(PREF_USE_BIG_TEXT, false)
-    }
-
-    private fun setupWindow() {
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }
-
-
     private fun handleMockDataToggle() {
         val isMockEnabled = CushyStorage.getBoolean(PREF_USE_MOCK_DATA, DEF_USE_MOCK_DATA)
-        val isBigTextMode = CushyStorage.getBoolean(PREF_USE_BIG_TEXT, DEF_USE_BIG_TEXT)
+        val isMultiline = CushyStorage.getBoolean(PREF_MULTILINE_NOTIFICATION, DEF_MULTILINE_NOTIFICATION)
+        val isBigStyle = CushyStorage.getBoolean(PREF_USE_BIG_TEXT, DEF_USE_BIG_TEXT)
 
         // Toggle the icon visibility
         binding.tilNotificationTitle.isEndIconVisible = isMockEnabled
@@ -243,7 +257,12 @@ class MainActivity : AppCompatActivity() {
                 tilNotificationTitle.alpha = 0.8f
                 tilNotificationBody.alpha = 0.8f
 
-                val mock = if (isBigTextMode) PtMockDataUtils.getRandomBigMockData() else PtMockDataUtils.getRandomMockData()
+                val mock = if (isMultiline || isBigStyle) {
+                    PtMockDataUtils.getRandomBigMockData()
+                } else {
+                    PtMockDataUtils.getRandomMockData()
+                }
+
                 edtNotificationTitle.setText(mock.title)
                 binding.edtNotificationBody.setText(mock.body)
 
@@ -265,7 +284,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setupMultilineNotification(isChecked: Boolean) {
         binding.edtNotificationBody.apply {
             if (isChecked) {
@@ -282,52 +300,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
-    /** init vibrator object */
-    @Suppress("DEPRECATION")
-    fun createVibratorObject() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            vibrator = vibratorManager.defaultVibrator
-
-        } else {
-            // For earlier versions
-            vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-        }
-    }
-
-//    /** Set text watcher object for notification title */
-//    fun createTextWatcherTitleObject() {
-//        textWatcherTitle = object : TextWatcher {
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                // ONLY clear the error if the user starts typing
-//                if (!s.isNullOrBlank()) {
-//                    binding.tilNotificationTitle.isErrorEnabled = false
-////                    setErrorNotificationTitle(false)
-//                }
-//            }
-//
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//            override fun afterTextChanged(s: Editable?) {}
-//        }
-//    }
-//
-//    /** Set text watcher object for notification body */
-//    fun createTextWatcherBodyObject() {
-//        textWatcherBody = object : TextWatcher {
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                // ONLY clear the error if the user starts typing
-//                if (!s.isNullOrBlank()) {
-//                    binding.tilNotificationBody.isErrorEnabled = false
-////                    setErrorNotificationBody(false)
-//                }
-//            }
-//
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-//            override fun afterTextChanged(s: Editable?) {}
-//        }
-//    }
 
     /** setup notification channels for sending notification within the app
      * to channel which is actually requested */
@@ -348,14 +320,16 @@ class MainActivity : AppCompatActivity() {
                 val channel = NotificationChannel(channelId, channelName, importance).apply {
                     lockscreenVisibility = Notification.VISIBILITY_PUBLIC
                 }
+
                 manager.createNotificationChannel(channel)
             }
         }
     }
 
-
     /** check if notification fields are correct and send notification */
     private fun onSendNotification() {
+        animateButtonClick(binding.btnSendNotification)
+
         val periodPos = CushyStorage.getInt(PREF_PERIODS_POS, DEF_PERIODS_POS)
         val periodValues = resources.getIntArray(R.array.periods_values_array)
         val periodMs = if (periodPos in periodValues.indices) periodValues[periodPos].toLong() else 0L
@@ -368,6 +342,7 @@ class MainActivity : AppCompatActivity() {
 
             // Check for Mock Data setting
             val isMockEnabled = CushyStorage.getBoolean(PREF_USE_MOCK_DATA, DEF_USE_MOCK_DATA)
+            val isMultiline = CushyStorage.getBoolean(PREF_MULTILINE_NOTIFICATION, DEF_MULTILINE_NOTIFICATION)
             val isBigTextMode = CushyStorage.getBoolean(PREF_USE_BIG_TEXT, DEF_USE_BIG_TEXT)
 
             val title: String
@@ -375,14 +350,16 @@ class MainActivity : AppCompatActivity() {
 
             if (isMockEnabled) {
                 // Choose mock data based on the Visual Style setting
-                val mock = if (isBigTextMode) {
+                val mock = if (isMultiline || isBigTextMode) {
                     PtMockDataUtils.getRandomBigMockData()
+
                 } else {
                     PtMockDataUtils.getRandomMockData()
                 }
 
                 title = mock.title
                 body = mock.body
+
                 binding.edtNotificationTitle.setText(title)
                 binding.edtNotificationBody.setText(body)
 
@@ -427,17 +404,16 @@ class MainActivity : AppCompatActivity() {
 
         periodicRunnable = object : Runnable {
             override fun run() {
-                // 1. THE CRITICAL CHECK:
                 // Check the source of truth (storage) every single time the loop fires.
                 val currentPeriodPos = CushyStorage.getInt(PREF_PERIODS_POS, DEF_PERIODS_POS)
 
-                // 2. If it was set to 0 (Single-shot) or the local flag is false, KILL the loop.
+                // If it was set to 0 (Single-shot) or the local flag is false, KILL the loop.
                 if (currentPeriodPos == 0 || !isPeriodicActive) {
                     stopPeriodicNotifications()
                     return
                 }
 
-                // 3. Continue with the notification
+                // Continue with the notification
                 if (CushyStorage.getBoolean(PREF_USE_MOCK_DATA, DEF_USE_MOCK_DATA)) {
                     val isBig = CushyStorage.getBoolean(PREF_USE_BIG_TEXT, DEF_USE_BIG_TEXT)
                     val mock = if (isBig) PtMockDataUtils.getRandomBigMockData() else PtMockDataUtils.getRandomMockData()
@@ -449,7 +425,7 @@ class MainActivity : AppCompatActivity() {
                 val body = binding.edtNotificationBody.text.toString()
                 publishNotification(title, body)
 
-                // 4. Schedule the next one only if we are still active
+                // Schedule the next one only if we are still active
                 handler.postDelayed(this, interval)
             }
         }
@@ -470,15 +446,16 @@ class MainActivity : AppCompatActivity() {
         binding.btnStopPeriodicalNotifications.visibility = View.GONE
         binding.btnSendNotification.visibility = View.VISIBLE
 //        binding.btnSendNotification.isEnabled = true
+
         swapButtons(false) // Animate back to Send mode
     }
 
-
     /** publish actual notification */
+    @SuppressLint("FullScreenIntentPolicy")
     private fun publishNotification(title: String, body: String) {
         val notificationManager = NotificationManagerCompat.from(this)
 
-        // 1. Get User Preferences
+        // Get User Preferences
         var importancePos = CushyStorage.getInt(PREF_IMPORTANCE_POS, DEF_IMPORTANCE_POS)
         val visibilityPos = CushyStorage.getInt(PREF_VISIBILITY_POS, DEF_VISIBILITY_POS)
 
@@ -492,7 +469,7 @@ class MainActivity : AppCompatActivity() {
         val isInbox = CushyStorage.getBoolean(PREF_USE_INBOX_STYLE, DEF_USE_INBOX_STYLE)
         val hasActions = CushyStorage.getBoolean(PREF_INCLUDE_ACTIONS, DEF_INCLUDE_ACTIONS)
 
-        // 2. Load technical values from your integer-arrays
+        // Load technical values from your integer-arrays
         val visibilityValues = resources.getIntArray(R.array.visibility_values_array)
 
         // Logic Refinement: Full-screen intents REQUIRE High/Urgent importance to work.
@@ -509,16 +486,16 @@ class MainActivity : AppCompatActivity() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        // 3. Handle Grouping Summary
+        // Handle Grouping Summary
         if (isGrouped) {
             val summaryNotification = NotificationCompat.Builder(this, activeChannelId)
                 .setSmallIcon(R.drawable.outline_notifications_active_24)
-                // 1. ContentTitle and Text are usually ignored, but some OEMs show them
+                // ContentTitle and Text are usually ignored, but some OEMs show them
                 .setContentTitle(title)
-//                .setContentText("Bundled messages")
-                // 2. This is the one that DEFINITELY shows up next to the app name
+//                .setContentText("Bundled messages") // will be set later on
+                // This is the one that DEFINITELY shows up next to the app name
                 .setSubText(PtLocaleUtils.getEnglishString(this, R.string.app_name))
-                // 3. This style is the standard for bundles
+                // This style is the standard for bundles
                 .setStyle(NotificationCompat.InboxStyle()
                     .setSummaryText(PtLocaleUtils.getEnglishString(this, R.string.app_name)))
                 .setGroup(GROUP_KEY)
@@ -531,70 +508,30 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        if (isGrouped) {
-//            // 1. Create the SUMMARY (Header) using InboxStyle
-//            // This is what pros do to make the group look great
-//            val summaryStyle = NotificationCompat.InboxStyle()
-//                .setSummaryText(PtLocaleUtils.getEnglishString(this, R.string.app_name))
-//                // This is a "Pro" touch: the summary shows the most recent title
-//                .setBigContentTitle(title)
-////
-////            val summaryStyle = NotificationCompat.InboxStyle()
-////                .setSummaryText(PtLocaleUtils.getEnglishString(this, R.string.app_name))
-////                .addLine(title) // You can mock these
-////                .addLine(body)
-//
-//            val summaryNotification = NotificationCompat.Builder(this, activeChannelId)
-//                .setSmallIcon(R.drawable.outline_notifications_active_24)
-//                .setStyle(summaryStyle) // <--- Applying InboxStyle here!
-//                .setGroup(GROUP_KEY)
-//                .setGroupSummary(true)
-//                .setAutoCancel(true)
-//                .build()
-//
-//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-//                notificationManager.notify(SUMMARY_ID, summaryNotification)
-//            }
-//        }
-
-        // 4. Main Notification Builder
+        // Main Notification Builder
         val builder = NotificationCompat.Builder(this, activeChannelId)
             .setSmallIcon(R.drawable.outline_notifications_active_24)
             .setContentTitle(title)
-//            .setContentText(body)
+//            .setContentText(body) // will be set later on
             .setContentIntent(pendingIntent)
             .setAutoCancel(!isPersistent)
             .setOngoing(isPersistent)
             .setSilent(!CushyStorage.getBoolean(PREF_ENABLE_SOUND, DEF_ENABLE_SOUND))
 
-        // Set Visibility from your array mapping
+        // Set Visibility from array mapping
         if (visibilityPos in visibilityValues.indices) {
             builder.setVisibility(visibilityValues[visibilityPos])
         }
 
         // --- UNIFIED VISUAL STYLES & HINT LOGIC ---
 
-        // PREF_USE_BIG_TEXT, PREF_SHOW_BIG_PICTURE and PREF_USE_INBOX_STYLE
-        // are mutually excluded in settings!
-
-//        // 1. Calculate the hint/header metadata
-//        val hintString = if (isBigText || isBigPicture || isInbox || hasActions) getString(R.string.hint_expandable) else null
-//        val appName = if (CushyStorage.getBoolean(PREF_SHOW_SUBTEXT, DEF_SHOW_SUBTEXT)) PtLocaleUtils.getEnglishString(this, R.string.app_name) else null
-//
-//        val finalSubText = when {
-//            appName != null && hintString != null -> "$appName • $hintString"
-//            appName != null -> appName
-//            else -> hintString
-//        }
-//
-//        // This is the "D2D Trick" that just worked in our test
-//        val displayBody = if (hintString != null) "$body ($hintString)" else body
-//        builder.setContentText(displayBody)
-//        builder.setSubText(finalSubText) // Keep the header hint too
-
-        // --- 1. Calculate metadata (Lines 548 - 557) ---
+        // Calculate metadata
         val hintString = if (isBigText || isBigPicture || isInbox || hasActions) getString(R.string.hint_expandable) else null
-        val appName = if (CushyStorage.getBoolean(PREF_SHOW_SUBTEXT, DEF_SHOW_SUBTEXT)) PtLocaleUtils.getEnglishString(this, R.string.app_name) else null
+
+        val appName = if (CushyStorage.getBoolean(PREF_SHOW_SUBTEXT, DEF_SHOW_SUBTEXT))  {
+            PtLocaleUtils.getEnglishString(this, R.string.app_name)
+        } else null
+
         val truncationLimit = resources.getInteger(R.integer.body_truncation_limit)
 
         val finalSubText = when {
@@ -603,7 +540,8 @@ class MainActivity : AppCompatActivity() {
             else -> hintString
         }
 
-        Log.d(TAG, "finalSubText = $finalSubText")
+//        Log.d(TAG, "finalSubText = $finalSubText")
+
         // Apply teaser truncation ONLY for the BigText case
         val teaser = if (isBigText && body.length > truncationLimit) {
             body.take(truncationLimit) + "..."
@@ -615,29 +553,33 @@ class MainActivity : AppCompatActivity() {
         val displayBody = if (hintString != null) "$teaser ($hintString)" else teaser
         builder.setContentText(displayBody)
 
-        builder.setSubText(finalSubText)    // Set the header hint
+        builder.setSubText(finalSubText) // Set the header hint
 
-        // 3. Apply the Style (This is the working BigText block)
+        // Apply the Style
         when {
             isBigText -> {
                 Log.d(TAG, "isBigText")
                 builder.setStyle(NotificationCompat.BigTextStyle()
-                    .bigText(body)                   // The full original text
+                    .bigText(body)  // The full original text
                     .setBigContentTitle(title)
-                    .setSummaryText(finalSubText))   // Hint stays at top when expanded
+                    .setSummaryText(finalSubText))  // Hint stays at top when expanded
             }
 
             isBigPicture -> {
-                // TODO: test icon
+                // TODO: as a test icon use UDeedIt logo
                 // Use the helper instead of decodeResource
-                val originalBitmap = getBitmapFromDrawable(applicationContext, R.drawable.ic_setting_2040504)
-//                val originalBitmap = android.graphics.BitmapFactory.decodeResource(resources, R.drawable.ic_setting_2040504)
+                val originalBitmap = getBitmapFromDrawable(this, R.drawable.outline_notifications_active_24)
 
                 if (originalBitmap != null) {
-                    // --- THE D2D "NO-CROP" FIX ---
-                    // We create a new 2:1 ratio bitmap (e.g., 1024 x 512)
+                    // Detect if we are on a tablet (sw600dp, or higher)
+                    val isTablet = resources.configuration.smallestScreenWidthDp >= 600
+
+                    // 2. Set the ratio: 3.0x width for tablets, 2.0x for phones
+                    val ratio = if (isTablet) 3.0f else 2.0f
+
+                    // We create a new 2:1 ratio bitmap (e.g., 1024 x 512) or 3.0:1 for tablets
                     // and place your square 512x512 icon in the center.
-                    val width = originalBitmap.width * 2
+                    val width = (originalBitmap.width * ratio).toInt()
                     val height = originalBitmap.height
 
                     val paddedBitmap = createBitmap(width, height)
@@ -670,6 +612,7 @@ class MainActivity : AppCompatActivity() {
                         manualLine.chunked(truncationLimit).take(3).forEach { chunk ->
                             inbox.addLine(chunk)
                         }
+
                     } else if (manualLine.isNotBlank()) {
                         inbox.addLine(manualLine)
                     }
@@ -680,48 +623,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        if (CushyStorage.getBoolean(PREF_USE_BIG_TEXT, DEF_USE_BIG_TEXT)) {
-//            builder.setStyle(NotificationCompat.BigTextStyle()
-//                .bigText(body)
-//                .setBigContentTitle(title) // Changes title when expanded
-//                .setSummaryText("Swipe up to hide details")) // Adds a tiny hint at the bottom
-//        }
-//
-//        if (CushyStorage.getBoolean(PREF_SHOW_BIG_PICTURE, DEF_SHOW_BIG_PICTURE)) {
-//            val bitmap = android.graphics.BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
-//            builder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap))
-//        }
-//
-//        if (CushyStorage.getBoolean(PREF_USE_INBOX_STYLE, DEF_USE_INBOX_STYLE)) {
-//            // InboxStyle allows up to ~6 lines of text
-//            val inbox = NotificationCompat.InboxStyle()
-//                .setBigContentTitle("New Messages") // Header when expanded
-//                .setSummaryText("user@example.com") // Extra info at top
-//                .addLine(title) // Line 1
-//                .addLine(body)  // Line 2
-//                .addLine("Check recent logs...") // Line 3
-//            builder.setStyle(inbox)
-//        }
-
-        // 6. Apply Non-Style Options
+        // Apply Non-Style Options
 
         if (isGrouped) builder.setGroup(GROUP_KEY)
 
         if (CushyStorage.getBoolean(PREF_SHOW_LARGE_ICON, DEF_SHOW_LARGE_ICON)) {
-            // Use a DIFFERENT drawable than your small icon (alarm bell)
-            val bitmap = getBitmapFromDrawable(applicationContext, R.drawable.rounded_close_24)
-//            val bitmap = android.graphics.BitmapFactory.decodeResource(resources, R.drawable.rounded_close_24)
+            val primaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.md_theme_primary)
+            val bitmap = getBitmapFromDrawable(this, R.drawable.outline_notifications_active_24, primaryColor)
             builder.setLargeIcon(bitmap)
         }
 
         if (CushyStorage.getBoolean(PREF_CHRONOMETER, DEF_CHRONOMETER)) {
             builder.setUsesChronometer(true)
         }
-
-        // TODO: remove it
-//        if (CushyStorage.getBoolean(PREF_SHOW_CONTENT_INFO, DEF_SHOW_CONTENT_INFO)) {
-//            builder.setContentInfo("99+")
-//        }
 
         if (CushyStorage.getBoolean(PREF_INCLUDE_ACTIONS, DEF_INCLUDE_ACTIONS)) {
             builder.addAction(R.drawable.rounded_close_24, getString(R.string.lbl_stop_sending), pendingIntent)
@@ -739,7 +653,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 7. Permission Check and Final Dispatch
+        // Permission Check and Final Dispatch
 
         // If grouped, we MUST use unique IDs to see the bundle. Otherwise, respect overwrite.
         val notificationId = if (isOverwrite && !isGrouped) {
@@ -749,10 +663,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            // test
-            // Toast the EXACT strings being sent to the OS
-//            Toast.makeText(this, "Channel: $activeChannelId | Importance: $importancePos", Toast.LENGTH_LONG).show()
-
             notificationManager.notify(notificationId, builder.build())
             vibrateSuccess()
 
@@ -764,16 +674,16 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    /** init vibrator object */
     @Suppress("DEPRECATION")
-    private fun vibrateError() {
-        // Only proceed if vibration setting is enabled
-        if (!CushyStorage.getBoolean(PREF_VIBRATION_ON, DEF_VIBRATION_ON)) return
+    fun createVibratorObject() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibrator = vibratorManager.defaultVibrator
 
-        Log.d(TAG, "vibrateError")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createWaveform(patternError, -1))
         } else {
-            vibrator.vibrate(vibrationDurationError)
+            // For earlier versions
+            vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
         }
     }
 
@@ -785,13 +695,142 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "vibrateSuccess")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createWaveform(patternConfirmation, -1))
+
         } else {
             vibrator.vibrate(vibrationDurationSuccess)
         }
     }
 
+    @Suppress("DEPRECATION")
+    private fun vibrateError() {
+        // Only proceed if vibration setting is enabled
+        if (!CushyStorage.getBoolean(PREF_VIBRATION_ON, DEF_VIBRATION_ON)) return
 
-    // handle permissions
+        Log.d(TAG, "vibrateError")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createWaveform(patternError, -1))
+
+        } else {
+            vibrator.vibrate(vibrationDurationError)
+        }
+    }
+
+    /** Quick haptic feedback for button presses */
+    private fun vibrateButtonClick() {
+        // Always respect the user's Sensory setting
+        if (!CushyStorage.getBoolean(PREF_VIBRATION_ON, DEF_VIBRATION_ON)) return
+
+        // Perform a short, sharp "tick" vibration
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // A single 30ms pulse is the standard for button feedback
+            vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE))
+
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(vibrationDuration)
+        }
+    }
+
+
+    // Animations
+
+    // Helper function to animate the button swap
+    private fun swapButtons(showStop: Boolean) {
+        val duration = 450L // Slightly longer for the "swag" to feel fluid
+        val springBounciness = 2.0f
+
+        // Convert 20dp to pixels for a consistent vertical offset across devices
+        val offset = 20f * resources.displayMetrics.density
+
+        if (showStop) {
+            // Animate SEND button out (Sliding UP and out) ---
+            binding.btnSendNotification.animate()
+                .alpha(0f)
+                .scaleX(0.8f)
+                .scaleY(0.8f)
+                .translationY(-offset) // Slide slightly UP
+                .setDuration(250)
+                .withEndAction {
+                    binding.btnSendNotification.visibility = View.GONE
+                    binding.btnSendNotification.translationY = 0f // Reset for next time
+                }
+                .start()
+
+            // Animate STOP button in (Springing UP from bottom) ---
+            binding.btnStopPeriodicalNotifications.apply {
+                alpha = 0f
+                scaleX = 0.7f
+                scaleY = 0.7f
+                translationY = offset // Start below its final position
+                visibility = View.VISIBLE
+
+                animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .translationY(0f) // Settle at original position
+                    .setDuration(duration)
+                    .setInterpolator(android.view.animation.OvershootInterpolator(springBounciness))
+                    .start()
+            }
+
+        } else {
+            // Animate STOP button out (Sliding UP and out) ---
+            binding.btnStopPeriodicalNotifications.animate()
+                .alpha(0f)
+                .scaleX(0.8f)
+                .scaleY(0.8f)
+                .translationY(-offset)
+                .setDuration(250)
+                .withEndAction {
+                    binding.btnStopPeriodicalNotifications.visibility = View.GONE
+                    binding.btnStopPeriodicalNotifications.translationY = 0f
+                }
+                .start()
+
+            // Animate SEND button back in (Springing UP from bottom) ---
+            binding.btnSendNotification.apply {
+                alpha = 0f
+                scaleX = 0.7f
+                scaleY = 0.7f
+                translationY = offset
+                visibility = View.VISIBLE
+
+                animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .translationY(0f)
+                    .setDuration(duration)
+                    .setInterpolator(android.view.animation.OvershootInterpolator(springBounciness))
+                    .start()
+            }
+        }
+    }
+
+    private fun animateButtonClick(view: View) {
+        // Trigger the haptic "tick" immediately
+        vibrateButtonClick()
+
+        view.animate()
+            .scaleX(0.9f)
+            .scaleY(0.9f)
+            .translationY(10f)
+            .setDuration(100)
+            .withEndAction {
+                view.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .translationY(0f)
+                    .setDuration(300)
+                    .setInterpolator(android.view.animation.OvershootInterpolator(2.0f))
+                    .start()
+            }
+            .start()
+    }
+
+
+    // Handle Permissions
 
     private fun initializePermissionList() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -863,78 +902,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // Helper function to animate the button swap
-    private fun swapButtons(showStop: Boolean) {
-        val duration = 450L // Slightly longer for the "swag" to feel fluid
-        val springBounciness = 2.0f
-
-        // Convert 20dp to pixels for a consistent vertical offset across devices
-        val offset = 20f * resources.displayMetrics.density
-
-        if (showStop) {
-            // --- 1. Animate SEND button out (Sliding UP and out) ---
-            binding.btnSendNotification.animate()
-                .alpha(0f)
-                .scaleX(0.8f)
-                .scaleY(0.8f)
-                .translationY(-offset) // Slide slightly UP
-                .setDuration(250)
-                .withEndAction {
-                    binding.btnSendNotification.visibility = View.GONE
-                    binding.btnSendNotification.translationY = 0f // Reset for next time
-                }
-                .start()
-
-            // --- 2. Animate STOP button in (Springing UP from bottom) ---
-            binding.btnStopPeriodicalNotifications.apply {
-                alpha = 0f
-                scaleX = 0.7f
-                scaleY = 0.7f
-                translationY = offset // Start below its final position
-                visibility = View.VISIBLE
-                animate()
-                    .alpha(1f)
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .translationY(0f) // Settle at original position
-                    .setDuration(duration)
-                    .setInterpolator(android.view.animation.OvershootInterpolator(springBounciness))
-                    .start()
-            }
-        } else {
-            // --- 3. Animate STOP button out (Sliding UP and out) ---
-            binding.btnStopPeriodicalNotifications.animate()
-                .alpha(0f)
-                .scaleX(0.8f)
-                .scaleY(0.8f)
-                .translationY(-offset)
-                .setDuration(250)
-                .withEndAction {
-                    binding.btnStopPeriodicalNotifications.visibility = View.GONE
-                    binding.btnStopPeriodicalNotifications.translationY = 0f
-                }
-                .start()
-
-            // --- 4. Animate SEND button back in (Springing UP from bottom) ---
-            binding.btnSendNotification.apply {
-                alpha = 0f
-                scaleX = 0.7f
-                scaleY = 0.7f
-                translationY = offset
-                visibility = View.VISIBLE
-                animate()
-                    .alpha(1f)
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .translationY(0f)
-                    .setDuration(duration)
-                    .setInterpolator(android.view.animation.OvershootInterpolator(springBounciness))
-                    .start()
-            }
-        }
-    }
-
-
+    // test code commented out
 
 //    private fun publishLegacyContentInfoTest() {
 //        val activeChannelId = "${CHANNEL_ID}_0"

@@ -13,6 +13,7 @@
     <dimen name="margin_horizontal_normal">8dp</dimen>
     <dimen name="margin_horizontal_middle">16dp</dimen>
 
+    <dimen name="margin_vertical_small">42dp</dimen>
     <dimen name="margin_vertical_normal">8dp</dimen>
     <dimen name="margin_vertical_middle">16dp</dimen>
     <dimen name="margin_vertical_large">24dp</dimen>
@@ -22,9 +23,10 @@
 
     <dimen name="settings_icons_layout_size">48dp</dimen>
     <dimen name="settings_icons_size">36dp</dimen>
+    <dimen name="settings_icon_close_size">39dp</dimen>
 
     <!-- Standard touch target for interactive elements -->
-    <dimen name="min_touch_target">48dp</dimen>
+    <dimen name="min_touch_target">54dp</dimen>
     <dimen name="separator_height">1dp</dimen>
 
     <!-- Text Sizes -->
@@ -32,9 +34,11 @@
     <item name="text_size_category_header" type="dimen">17.5sp</item>
     <item name="text_size_body_standard" type="dimen">16.5sp</item>
     <item name="text_size_small_label" type="dimen">14sp</item>
+    <dimen name="text_size_button">16sp</dimen>
 
     <!-- Spacing & Lettering -->
-    <item name="letter_spacing_header" translatable="false" type="string">0.05</item> <!-- Note: will use as a float in styles -->
+    <!-- Note: will use as a float in styles -->
+    <item name="letter_spacing_header" translatable="false" type="string">0.05</item>
     <item name="margin_category_bottom" type="dimen">4dp</item>
     <item name="margin_label_top" type="dimen">8dp</item>
 
@@ -42,5 +46,19 @@
     <dimen name="drag_view_width">40dp</dimen>
     <dimen name="drag_view_height">4dp</dimen>
     <dimen name="button_height">64dp</dimen>
+    <dimen name="icon_i_margin_top">-12dp</dimen>
+
+    <!-- Dialog Specific Dimensions -->
+    <dimen name="dialog_padding_horizontal">24dp</dimen>
+    <dimen name="dialog_padding_vertical">16dp</dimen>
+    <dimen name="dialog_inner_padding">32dp</dimen>
+    <dimen name="dialog_icon_size">40dp</dimen>
+    <dimen name="dialog_corner_radius">28dp</dimen>
+    <dimen name="dialog_button_min_width">120dp</dimen>
+    <dimen name="dialog_button_corner_radius">16dp</dimen>
+
+    <!-- Spacing -->
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
 
 </resources>

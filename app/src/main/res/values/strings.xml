@@ -4,6 +4,7 @@
 
     <string name="lbl_send_notification">Send Notification</string>
     <string name="lbl_stop_sending">Stop</string>
+    <string name="lbl_close">Close</string>
 
     <string name="hint_notification_title">Notification Title</string>
     <string name="hint_notification_body">Notification Text</string>
@@ -27,6 +28,8 @@
     <string name="warn_empty_notif">Sending empty notification for testing…</string>
     <string name="snack_scheduled">Notification scheduled in %1$d seconds</string>
     <string name="snack_periodic_stopped">Periodic testing stopped</string>
+    <string name="warn_allow_full_screen_intent">Please allow Full-Screen Intents in settings to test this feature.</string>
+    <string name="warn_grant_full_screen">Please allow Full-Screen Intents in settings to test this feature.</string>
 
 
     <!-- Permissions -->
@@ -66,11 +69,6 @@
     <string name="header_sensory">Sensory</string>
     <string name="header_system_config">System Config</string>
 
-<!--    <string-array name="visibility_array">-->
-<!--        <item>@string/visibility_public</item>-->
-<!--        <item>@string/visibility_private</item>-->
-<!--        <item>@string/visibility_secret</item>-->
-<!--    </string-array>-->
 
     <string-array name="visibility_array">
         <item>Public (Show all content)</item>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="info_use_mock_body">Automatically populates fields with real-world developer scenarios like GitHub PRs or Server Alerts.\n\nSmart Logic: If Multiline or Big Text is enabled, the app automatically selects longer payloads to fill the view. Manual input is locked while active.</string>
+
+    <string name="info_overwrite_body">Uses a fixed ID (0). New notifications will replace the previous one in the drawer. Turn this OFF if you want to test notification stacking or grouped bundles.</string>
+
+    <string name="info_persistent_body">Sets the \"Ongoing\" flag. On older devices, it prevents swiping. Note: On Android 14+, users can still swipe these away unless a Foreground Service is active.</string>
+
+    <string name="info_multiline_body">A UI-only convenience that expands the input field on the main screen for easier typing. \n\nImportant: The actual notification text will still be truncated by the OS unless the Big Text Style is also enabled.</string>
+
+    <string name="info_full_screen_body">Simulates high-interruption events like Alarms or Incoming Calls. If the screen is locked and permission is granted, the app UI will launch immediately upon arrival.\n\nSmart Logic: Importance is automatically forced to \"Urgent\" to allow the system to trigger the full-screen UI.\n\nTip: Use a sending delay to allow time to lock your device and turn the screen off before the notification arrives.</string>
+
+    <string name="info_grouped_body">Bundles multiple notifications into a stack using a Group Key. \n\nSmart Logic: When active, the \"Overwrite\" setting is automatically ignored and unique IDs are used so you can see the bundling effect. \n\nTip: Send 2 or 3 notifications in a row to see the group summary header appear.</string>
+
+    <string name="info_periods_body">Starts a continuous loop at the chosen interval. This is used for stress-testing notification arrival and verifying background stability over long periods.</string>
+
+    <string name="info_delays_body">Applies a timer before firing the notification. Perfect for testing how the device behaves when the app is in the background or the screen is turned off.</string>
+
+    <string name="info_big_text_body">Allows the notification to expand into a large block of text. This tool uses a %1$d-character teaser in the collapsed view to ensure the expansion arrow remains visible.</string>
+
+    <string name="info_big_picture_body">Displays a large hero image when expanded. Note: This tool automatically converts XML icons to Bitmaps and uses a 2:1 padding ratio to prevent cropping on modern devices.</string>
+
+    <string name="info_inbox_body">Formats the notification as a list of individual lines. This tool automatically chunks long text into separate lines, as Inbox Style does not support text wrapping.</string>
+
+    <string name="info_actions_body">Adds interactive buttons (like STOP) to the notification card. Use this to test user engagement and the execution of PendingIntents from the drawer.</string>
+
+    <string name="info_subtext_body">Supplementary header metadata. This tool combines the App Name and Hint using a bullet point. Note: Some modern OS versions hide this to save vertical space.</string>
+
+    <string name="info_large_icon_body">Adds a circular thumbnail image. Note: While standard Android shows this on the right, Xiaomi HyperOS typically displays it on the left.</string>
+
+    <string name="info_chronometer_body">Adds a live, system-managed timer that counts up from the moment of arrival. Ideal for testing Call UIs or active background tasks.</string>
+
+    <string name="info_vibration_body">Controls haptic feedback. Used to verify that silent notification channels or \"Do Not Disturb\" exceptions are behaving correctly.</string>
+
+    <string name="info_sound_body">Toggles the default system notification sound. Tests if the channel importance correctly triggers an audible alert on the device.</string>
+
+    <string name="info_importance_body">Maps to Android Channels. Urgent (Heads-up banner), High (Sound), Medium (No sound), and Low (Silent/Minimized). Note: Importance is locked once a channel is created.</string>
+
+    <string name="info_visibility_body">Determines lock screen privacy: Public (Show all), Private (Hide content), or Secret (Hide notification entirely until unlocked).</string>
+
+</resources>

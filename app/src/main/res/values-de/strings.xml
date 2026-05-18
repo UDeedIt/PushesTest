@@ -4,6 +4,7 @@
 
     <string name="lbl_send_notification">Benachrichtigung senden</string>
     <string name="lbl_stop_sending">Aufhören</string>
+    <string name="lbl_close">Schließen</string>
 
     <string name="hint_notification_title">Benachrichtigungstitel</string>
     <string name="hint_notification_body">Benachrichtigungstext</string>
@@ -26,6 +27,8 @@
     <string name="warn_empty_notif">Leere Benachrichtigung zu Testzwecken gesendet…</string>
     <string name="snack_scheduled">Benachrichtigung geplant in %1$d Sekunden</string>
     <string name="snack_periodic_stopped">Periodischer Test gestoppt</string>
+    <string name="warn_allow_full_screen_intent">Bitte erlauben Sie Vollbild-Intents in den Einstellungen, um diese Funktion zu testen.</string>
+    <string name="warn_grant_full_screen">Bitte erlauben Sie Vollbild-Intents in den Einstellungen, um diese Funktion zu testen.</string>
 
     <!-- Permissions -->
     <string name="permission_is_already_allowed">Berechtigung ist bereits vom Benutzer erlaubt</string>
@@ -43,9 +46,9 @@
 <!--    <string name="lbl_show_content_info">ContentInfo anzeigen (Veraltet)</string>-->
     <string name="lbl_show_large_icon">Großes Icon anzeigen</string>
     <string name="lbl_show_big_picture">Großes Bild anzeigen (BigPicture-Stil)</string>
-    <string name="lbl_use_inbox_style">Inbox-Stil verwenden (Zeilenliste)</string>
+    <string name="lbl_use_inbox_style">Inbox-Stil verwenden\n(Zeilenliste)</string>
     <string name="lbl_group_notifications">Benachrichtigungen gruppieren</string>
-    <string name="lbl_use_chronometer">Chronometer verwenden (Timer-Stil)</string>
+    <string name="lbl_use_chronometer">Chronometer verwenden\n(Timer-Stil)</string>
 
     <!-- Notification Behavior -->
     <string name="lbl_enable_sound">Standardton aktivieren</string>
@@ -56,6 +59,14 @@
 
     <!-- Lock Screen Visibility Labels -->
     <string name="lbl_lockscreen_visibility">Sperrbildschirm-Sichtbarkeit</string>
+
+    <!-- Category Headers -->
+    <string name="header_behavior">Verhalten</string>
+    <string name="header_timing">Zeitplanung</string>
+    <string name="header_visual_style">Visueller Stil</string>
+    <string name="header_sensory">Sensorik</string>
+    <string name="header_system_config">System-Konfiguration</string>
+
 
     <string-array name="visibility_array">
         <item>Öffentlich (Vollständigen Inhalt zeigen)</item>
