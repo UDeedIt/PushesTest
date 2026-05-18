@@ -1,23 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Base application theme. -->
-    <style name="Theme.NotificationTestTool" parent="Theme.MaterialComponents.DayNight">
-<!--         Primary brand color.-->
-<!--        <item name="colorPrimary">@color/purple_200</item>-->
-<!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
-<!--        <item name="colorOnPrimary">@color/black</item>-->
-<!--        &lt;!&ndash; Secondary brand color. &ndash;&gt;-->
-<!--        <item name="colorSecondary">@color/teal_200</item>-->
-<!--        <item name="colorSecondaryVariant">@color/teal_200</item>-->
-<!--        <item name="colorOnSecondary">@color/black</item>-->
+    <style name="Theme.NotificationTestTool" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- AppCompat Compatibility -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Material 3 Flags -->
+        <item name="isMaterial3Theme">true</item>
 
         <!-- Status bar color. -->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:windowLightStatusBar">false</item>
 
+        <!-- Navigation bar color -->
+        <item name="android:navigationBarColor">@color/md_theme_surface</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+
         <!-- Customize your theme here. -->
 
-<!--        <item name="android:statusBarColor">@color/md_theme_onError</item>-->
         <item name="colorPrimaryVariant">@color/push_color_variant</item>
 
         <item name="colorPrimary">@color/md_theme_primary</item>

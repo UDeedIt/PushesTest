@@ -11,12 +11,15 @@ android {
         applicationId = "pro.udeedit.devtools.pushestest"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 4
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // vc1, 1.0.0 - first release
+        // vc4, 1.2.0 - first release ready cleanup
+        // vc3, 1.1.1 - add CushyStorage module
+        // vc2, 1.1.0 - work on epic PT-11
+        // vc1, 1.0.0 - create develop branch
     }
 
     buildTypes {
@@ -55,4 +58,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(project(":anarchist"))
+    implementation(project(":cushystorage"))
 }

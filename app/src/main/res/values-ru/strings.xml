@@ -2,10 +2,33 @@
 
     <string name="app_name">Pushes Test</string>
 
-    <string name="btn_send_notification">Отправить уведомление</string>
+    <string name="lbl_send_notification">Отправить уведомление</string>
+    <string name="lbl_stop_sending">Стоп</string>
+    <string name="lbl_close">Закрыть</string>
 
     <string name="hint_notification_title">Заголовок уведомления</string>
     <string name="hint_notification_body">Текст уведомления</string>
+    <string name="hint_expandable">Разверните для деталей</string>
+
+    <string name="advanced">Расширенные настройки</string>
+    <string name="use_mock_data">Использовать мок-данные</string>
+    <string name="overwrite">Перезапись</string>
+    <string name="vibration">Вибрация</string>
+    <string name="multiline_text">Многострочный</string>
+    <string name="sending_periods">Периодичность:</string>
+    <string name="sending_delays">Отсрочка отправки:</string>
+    <string name="notification_importance">Приоритет уведомлений:</string>
+
+    <!-- Warnings -->
+    <string name="snack_notif_sent">Уведомление опубликовано!</string>
+    <string name="snack_action_dismiss_all">Удалить все</string>
+    <string name="settings_reset_msg">Настройки сброшены до настроек по умолчанию</string>
+    <string name="warn_empty_fields">Отправка уведомления с пустыми полями…</string>
+    <string name="warn_empty_notif">Отправка пустого уведомления для тестирования…</string>
+    <string name="snack_scheduled">Уведомление запланировано через %1$d сек.</string>
+    <string name="snack_periodic_stopped">Периодические уведомления остановлены</string>
+    <string name="warn_allow_full_screen_intent">Пожалуйста, разрешите полноэкранные намерения в настройках, чтобы протестировать эту функцию.</string>
+    <string name="warn_grant_full_screen">Пожалуйста, разрешите полноэкранные намерения в настройках, чтобы протестировать эту функцию.</string>
 
     <!-- Permissions -->
     <string name="permission_is_already_allowed">Разрешение уже предоставлено пользователем</string>
@@ -14,5 +37,62 @@
 
     <string name="please_fill_notification_title">Пожалуйста, введите заголовок уведомления</string>
     <string name="please_fill_notification_text">Пожалуйста, введите текст уведомления</string>
+
+    <string name="settings">Настройки</string>
+
+    <!-- Notification Content & Style -->
+    <string name="lbl_use_big_text">Использовать BigText Style</string>
+    <string name="lbl_show_subtext">Показывать SubText</string>
+<!--    <string name="lbl_show_content_info">Показывать ContentInfo (Устар.)</string>-->
+    <string name="lbl_show_large_icon">Показывать большую иконку</string>
+    <string name="lbl_show_big_picture">Показывать большое изображение (BigPicture Style)</string>
+    <string name="lbl_use_inbox_style">Использовать Inbox Style\n(список строк)</string>
+    <string name="lbl_group_notifications">Группировать уведомления</string>
+    <string name="lbl_use_chronometer">Использовать хронометр\n(стиль Таймера)</string>
+
+    <!-- Notification Behavior -->
+    <string name="lbl_enable_sound">Включить стандартный звук</string>
+    <string name="lbl_enable_led">Мигать индикатором (LED)</string>
+    <string name="lbl_is_persistent">Закрепленное (Нельзя смахнуть)</string>
+    <string name="lbl_include_actions">Добавить кнопки действий</string>
+    <string name="lbl_full_screen_intent">Полноэкранный режим\n(стиль Будильника)</string>
+
+    <!-- Lock Screen Visibility Labels -->
+    <string name="lbl_lockscreen_visibility">Видимость на заблокированном экране</string>
+
+    <!-- Category Headers -->
+    <string name="header_behavior">Поведение</string>
+    <string name="header_timing">Тайминг</string>
+    <string name="header_visual_style">Визуальный стиль</string>
+    <string name="header_sensory">Сенсорика</string>
+    <string name="header_system_config">Системные настройки</string>
+
+
+    <string-array name="visibility_array">
+        <item>Публичное (Показывать всё содержимое)</item>
+        <item>Закрытое (Скрывать важные данные)</item>
+        <item>Секретное (Скрывать полностью)</item>
+    </string-array>
+
+    <string-array name="importance_array">
+        <item>Первоочередной</item>
+        <item>Высокий</item> <!-- Default -->
+        <item>Средний</item>
+        <item>Низкий</item>
+    </string-array>
+
+    <string-array name="periods_array">
+        <item>Однократно</item> <!-- Default -->
+        <item>10 секунд</item>
+        <item>30 секунд</item>
+        <item>Ежеминутно</item>
+    </string-array>
+
+    <string-array name="delays_array">
+        <item>Без задержек</item> <!-- Default -->
+        <item>10 сек. задержки</item>
+        <item>30 сек. задержки</item>
+        <item>60 сек. задержки</item>
+    </string-array>
 
 </resources>

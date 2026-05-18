@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="info_use_mock_body">Füllt Felder automatisch mit realistischen Entwickler-Szenarien wie GitHub PRs oder Server-Warnungen.\n\nSmart-Logik: Wenn Mehrzeilig oder Big Text aktiviert ist, wählt die App automatisch längere Inhalte, um die Ansicht auszufüllen. Die manuelle Eingabe ist im aktiven Zustand gesperrt.</string>
+    <string name="info_overwrite_body">Verwendet eine feste ID (0). Neue Benachrichtigungen ersetzen die vorherige. Deaktivieren Sie dies, um das Stapeln von Benachrichtigungen oder Gruppen zu testen.</string>
+    <string name="info_persistent_body">Setzt das \"Ongoing\"-Flag. Hinweis: Ab Android 14 können Benutzer diese Benachrichtigungen dennoch wegwischen, sofern kein Vordergrunddienst aktiv ist.</string>
+    <string name="info_multiline_body">Eine reine UI-Erweiterung, die das Eingabefeld auf dem Hauptbildschirm vergrößert, um das Tippen zu erleichtern. \n\nWichtig: Der tatsächliche Benachrichtigungstext wird vom System dennoch gekürzt, sofern nicht auch der Big Text Stil aktiviert ist.</string>
+    <string name="info_full_screen_body">Simuliert Ereignisse mit hoher Priorität wie Alarme oder Anrufe. Bei gesperrtem Bildschirm und erteilter Berechtigung startet die App-Oberfläche sofort nach dem Eintreffen.\n\nSmart-Logik: Die Wichtigkeit wird automatisch auf „Dringend“ gesetzt, damit das System die Vollbild-Anzeige auslösen kann.\n\nTipp: Verwenden Sie eine Sendeverzögerung, um das Gerät zu sperren und den Bildschirm vor dem Eintreffen auszuschalten.</string>
+    <string name="info_grouped_body">Bündelt mehrere Benachrichtigungen über einen Gruppen-Key zu einem Stapel. \n\nSmart-Logik: Im aktiven Zustand wird die Einstellung \"Überschreiben\" automatisch ignoriert und eindeutige IDs verwendet, damit der Bündelungseffekt sichtbar wird. \n\nTipp: Senden Sie 2 oder 3 Benachrichtigungen nacheinander, um den Header der Gruppenzusammenfassung zu sehen.</string>
+    <string name="info_periods_body">Startet eine Endlosschleife im gewählten Intervall. Ideal für Belastungstests und zur Überprüfung der Hintergrundstabilität.</string>
+    <string name="info_delays_body">Wendet einen Timer vor dem Senden an. Perfekt zum Testen des Sperrbildschirm-Verhaltens, wenn die App im Hintergrund ist.</string>
+    <string name="info_big_text_body">Ermöglicht das Erweitern der Benachrichtigung für große Textblöcke. Dieses Tool verwendet einen Teaser von %1$d Zeichen in der Kurzsicht, damit der Erweiterungspfeil sichtbar bleibt.</string>
+    <string name="info_big_picture_body">Zeigt ein großes Bild beim Erweitern. Hinweis: Dieses Tool konvertiert XML-Icons automatisch in Bitmaps und nutzt ein 2:1-Verhältnis gegen ungewolltes Zuschneiden.</string>
+    <string name="info_inbox_body">Formatiert die Nachricht als Liste. Da der Inbox-Stil keinen Zeilenumbruch unterstützt, teilt dieses Tool lange Texte automatisch in separate Zeilen auf.</string>
+    <string name="info_actions_body">Fügt Schaltflächen (z.B. STOPP) hinzu. Testet die Benutzerinteraktion und die Ausführung von PendingIntents direkt aus dem Drawer.</string>
+    <string name="info_subtext_body">Header-Metadaten neben dem App-Namen. Dieses Tool kombiniert App-Name und Hinweis. Einige Systeme blenden dies platzsparend aus.</string>
+    <string name="info_large_icon_body">Fügt ein rundes Vorschaubild hinzu. Hinweis: Während Android dies meist rechts zeigt, platziert Xiaomi HyperOS es oft links.</string>
+    <string name="info_chronometer_body">Fügt einen Live-Timer hinzu, der ab Eintreffen hochzählt. Ideal für Anruf-UIs oder aktive Aufgaben im Hintergrund.</string>
+    <string name="info_vibration_body">Steuert das haptische Feedback. Prüft, ob lautlose Kanäle oder \"Nicht stören\"-Ausnahmen wie beabsichtigt funktionieren.</string>
+    <string name="info_sound_body">Aktiviert den Systemton. Testet, ob die Kanal-Priorität korrekt einen akustischen Alarm auf dem Gerät auslöst.</string>
+    <string name="info_importance_body">Steuert Android-Kanäle: Dringend (Banner), Hoch (Ton), Mittel (Kein Ton), Niedrig (Lautlos). Die Wichtigkeit wird beim Erstellen des Kanals fixiert.</string>
+    <string name="info_visibility_body">Legt die Privatsphäre fest: Öffentlich (Alles zeigen), Privat (Inhalt verbergen) oder Geheim (Ganze Benachrichtigung verbergen).</string>
+
+</resources>

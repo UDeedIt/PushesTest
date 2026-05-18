@@ -2,10 +2,33 @@
 
     <string name="app_name">Pushes Test</string>
 
-    <string name="btn_send_notification">Benachrichtigung senden</string>
+    <string name="lbl_send_notification">Benachrichtigung senden</string>
+    <string name="lbl_stop_sending">Aufhören</string>
+    <string name="lbl_close">Schließen</string>
 
     <string name="hint_notification_title">Benachrichtigungstitel</string>
     <string name="hint_notification_body">Benachrichtigungstext</string>
+    <string name="hint_expandable">Für Details erweitern</string>
+
+    <string name="advanced">Erweiterte Einrichtungen</string>
+    <string name="use_mock_data">Mock-Daten verwenden</string>
+    <string name="overwrite">Überschreiben</string>
+    <string name="vibration">Vibration</string>
+    <string name="multiline_text">Mehrzeilig</string>
+    <string name="sending_periods">Sendezeiträume:</string>
+    <string name="sending_delays">Sendeverzögerungen:</string>
+    <string name="notification_importance">Benachrichtigungspriorität:</string>
+
+    <!-- Warnings and Infos -->
+    <string name="snack_notif_sent">Benachrichtigung ist gesendet!</string>
+    <string name="snack_action_dismiss_all">Alle löschen</string>
+    <string name="settings_reset_msg">Einstellungen sind auf Standard zurückgesetzt</string>
+    <string name="warn_empty_fields">Benachrichtigung mit leeren Feldern wird gesendet…</string>
+    <string name="warn_empty_notif">Leere Benachrichtigung zu Testzwecken gesendet…</string>
+    <string name="snack_scheduled">Benachrichtigung geplant in %1$d Sekunden</string>
+    <string name="snack_periodic_stopped">Periodischer Test gestoppt</string>
+    <string name="warn_allow_full_screen_intent">Bitte erlauben Sie Vollbild-Intents in den Einstellungen, um diese Funktion zu testen.</string>
+    <string name="warn_grant_full_screen">Bitte erlauben Sie Vollbild-Intents in den Einstellungen, um diese Funktion zu testen.</string>
 
     <!-- Permissions -->
     <string name="permission_is_already_allowed">Berechtigung ist bereits vom Benutzer erlaubt</string>
@@ -14,5 +37,63 @@
 
     <string name="please_fill_notification_title">Bitte füllen Sie den Benachrichtigungstitel aus</string>
     <string name="please_fill_notification_text">Bitte füllen Sie den Benachrichtigungstext aus</string>
+
+    <string name="settings">Einstellungen</string>
+
+    <!-- Notification Content & Style -->
+    <string name="lbl_use_big_text">BigText-Stil verwenden</string>
+    <string name="lbl_show_subtext">SubText anzeigen</string>
+<!--    <string name="lbl_show_content_info">ContentInfo anzeigen (Veraltet)</string>-->
+    <string name="lbl_show_large_icon">Großes Icon anzeigen</string>
+    <string name="lbl_show_big_picture">Großes Bild anzeigen (BigPicture-Stil)</string>
+    <string name="lbl_use_inbox_style">Inbox-Stil verwenden\n(Zeilenliste)</string>
+    <string name="lbl_group_notifications">Benachrichtigungen gruppieren</string>
+    <string name="lbl_use_chronometer">Chronometer verwenden\n(Timer-Stil)</string>
+
+    <!-- Notification Behavior -->
+    <string name="lbl_enable_sound">Standardton aktivieren</string>
+    <string name="lbl_enable_led">LED-Benachrichtigung</string>
+    <string name="lbl_is_persistent">Dauerhaft (Nicht wischbar)</string>
+    <string name="lbl_include_actions">Aktionsschaltflächen hinzufügen</string>
+    <string name="lbl_full_screen_intent">Vollbild-Intent (Alarm-Stil)</string>
+
+    <!-- Lock Screen Visibility Labels -->
+    <string name="lbl_lockscreen_visibility">Sperrbildschirm-Sichtbarkeit</string>
+
+    <!-- Category Headers -->
+    <string name="header_behavior">Verhalten</string>
+    <string name="header_timing">Zeitplanung</string>
+    <string name="header_visual_style">Visueller Stil</string>
+    <string name="header_sensory">Sensorik</string>
+    <string name="header_system_config">System-Konfiguration</string>
+
+
+    <string-array name="visibility_array">
+        <item>Öffentlich (Vollständigen Inhalt zeigen)</item>
+        <item>Privat (Sensible Inhalte ausblenden)</item>
+        <item>Geheim (Vollständig ausblenden)</item>
+    </string-array>
+
+    <string-array name="importance_array">
+        <item>Dringend</item>
+        <item>Hoch</item> <!-- Default -->
+        <item>Mittel</item>
+        <item>Niedrig</item>
+        <!--        <item>None</item>-->
+    </string-array>
+
+    <string-array name="periods_array">
+        <item>Einmal</item> <!-- Default -->
+        <item>Alle 10 Sekunden</item>
+        <item>Alle 30 Sekunden</item>
+        <item>Jede Minute</item>
+    </string-array>
+
+    <string-array name="delays_array">
+        <item>No delay</item> <!-- Default -->
+        <item>10 Sec. Verzögerung</item>
+        <item>30 Sec. Verzögerung</item>
+        <item>60 Sec. Verzögerung</item>
+    </string-array>
 
 </resources>

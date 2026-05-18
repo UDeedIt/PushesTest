@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/md_theme_surface"
+    android:padding="@dimen/margin_vertical_middle">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Drag handle -->
+        <View
+            android:layout_width="@dimen/drag_view_width"
+            android:layout_height="@dimen/drag_view_height"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/margin_vertical_normal"
+            android:background="@color/md_theme_outlineVariant" />
+
+        <!-- Header Container -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/margin_vertical_normal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnResetSettings"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="@dimen/settings_icons_layout_size"
+                android:layout_height="@dimen/settings_icons_layout_size"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="0dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/rounded_settings_backup_restore_24"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="@dimen/settings_icons_size"
+                app:iconTint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tvTitleSettings"
+                style="@style/SettingsTitleText"
+                android:layout_centerInParent="true"
+                android:text="@string/settings" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCloseSettings"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="@dimen/settings_icons_layout_size"
+                android:layout_height="@dimen/settings_icons_layout_size"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="0dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/rounded_close_24"
+                app:iconGravity="textEnd"
+                app:iconPadding="0dp"
+                app:iconSize="@dimen/settings_icon_close_size"
+                app:iconTint="?attr/colorPrimary" />
+        </RelativeLayout>
+
+        <!-- CATEGORY: BEHAVIOR -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_behavior" />
+
+        <!-- Row: Use Mock Data -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelMockData"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_mock_data"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoUseMockData"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelMockData"
+                app:layout_constraintTop_toTopOf="@id/tvLabelMockData" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchUseMockData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Overwrite -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelOverwrite"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/overwrite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoOverwrite"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelOverwrite"
+                app:layout_constraintTop_toTopOf="@id/tvLabelOverwrite" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchOverwrite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Persistent -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelPersistent"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_is_persistent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoPersistent"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelPersistent"
+                app:layout_constraintTop_toTopOf="@id/tvLabelPersistent" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchPersistent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Multiline -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelMultiline"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/multiline_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoMultiline"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelMultiline"
+                app:layout_constraintTop_toTopOf="@id/tvLabelMultiline" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchMultilineText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Full Screen -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelFullScreen"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_full_screen_intent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoFullScreen"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelFullScreen"
+                app:layout_constraintTop_toTopOf="@id/tvLabelFullScreen" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchFullScreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Grouped -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelGrouped"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_group_notifications"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoGrouped"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelGrouped"
+                app:layout_constraintTop_toTopOf="@id/tvLabelGrouped" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchGrouped"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- CATEGORY: TIMING -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_timing" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvLabelPeriods"
+                style="@style/SettingsLabelText"
+                android:text="@string/sending_periods"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoPeriods"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelPeriods"
+                app:layout_constraintTop_toTopOf="@id/tvLabelPeriods" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Spinner
+            android:id="@+id/spPeriods"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target"
+            android:entries="@array/periods_array" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvLabelDelays"
+                style="@style/SettingsLabelText"
+                android:text="@string/sending_delays"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoDelays"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelDelays"
+                app:layout_constraintTop_toTopOf="@id/tvLabelDelays" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Spinner
+            android:id="@+id/spDelays"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target"
+            android:entries="@array/delays_array" />
+
+        <!-- CATEGORY: VISUAL STYLE -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_visual_style" />
+
+        <!-- Row: Big Text -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelBigText"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_use_big_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoBigText"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelBigText"
+                app:layout_constraintTop_toTopOf="@id/tvLabelBigText" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchBigText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Big Picture -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelBigPicture"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_show_big_picture"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoBigPicture"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelBigPicture"
+                app:layout_constraintTop_toTopOf="@id/tvLabelBigPicture" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchBigPicture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Inbox Style -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelInbox"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/lbl_use_inbox_style" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoInboxStyle"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelInbox"
+                app:layout_constraintTop_toTopOf="@id/tvLabelInbox" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchInboxStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Actions -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelActions"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_include_actions"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoActionButtons"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelActions"
+                app:layout_constraintTop_toTopOf="@id/tvLabelActions" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchActionButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Subtext -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelSubText"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_show_subtext"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoSubText"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelSubText"
+                app:layout_constraintTop_toTopOf="@id/tvLabelSubText" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchSubText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Large Icon -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelLargeIcon"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_show_large_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoLargeIcon"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="-12dp"
+                app:layout_constraintStart_toEndOf="@id/tvLabelLargeIcon"
+                app:layout_constraintTop_toTopOf="@id/tvLabelLargeIcon" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchLargeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Chronometer -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelChronometer"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_use_chronometer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoChronometer"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelChronometer"
+                app:layout_constraintTop_toTopOf="@id/tvLabelChronometer" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchChronometer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- CATEGORY: SENSORY -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_sensory" />
+
+        <!-- Row: Vibration -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelVibration"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vibration"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoVibration"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="-12dp"
+                app:layout_constraintStart_toEndOf="@id/tvLabelVibration"
+                app:layout_constraintTop_toTopOf="@id/tvLabelVibration" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchVibration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Row: Sound -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target">
+
+            <TextView
+                android:id="@+id/tvLabelSound"
+                style="@style/SettingsSwitchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_enable_sound"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoSound"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="-12dp"
+                app:layout_constraintStart_toEndOf="@id/tvLabelSound"
+                app:layout_constraintTop_toTopOf="@id/tvLabelSound" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchSound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- CATEGORY: SYSTEM CONFIG -->
+        <TextView
+            style="@style/SettingsCategoryHeader"
+            android:layout_marginTop="@dimen/margin_vertical_middle"
+            android:text="@string/header_system_config" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvLabelImportance"
+                style="@style/SettingsLabelText"
+                android:text="@string/notification_importance"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoImportance"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelImportance"
+                app:layout_constraintTop_toTopOf="@id/tvLabelImportance" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Spinner
+            android:id="@+id/spImportance"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target"
+            android:entries="@array/importance_array" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvLabelVisibility"
+                style="@style/SettingsLabelText"
+                android:text="@string/lbl_lockscreen_visibility"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/infoVisibility"
+                style="@style/SettingsInfoIcon"
+                android:layout_marginTop="@dimen/icon_i_margin_top"
+                app:layout_constraintStart_toEndOf="@id/tvLabelVisibility"
+                app:layout_constraintTop_toTopOf="@id/tvLabelVisibility" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Spinner
+            android:id="@+id/spVisibility"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_touch_target"
+            android:layout_marginBottom="@dimen/margin_vertical_large"
+            android:entries="@array/visibility_array" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
