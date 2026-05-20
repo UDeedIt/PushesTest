@@ -1,8 +1,13 @@
 # Pushes Test (D2D Utility)
 
-**Pushes Test** is a professional D2D (Developer-to-Developer) utility designed for deep testing of local Android notifications. It allows coders to simulate real-world scenarios, stress-test system behaviors, and master the nuances of the Android Notification API.
+<a href='https://play.google.com/store/apps/details?id=pro.udeedit.devtools.pushestest'>
+  <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="200"/>
+</a>
+
+**Pushes Test** is a professional D2D (Developer-to-Developer) utility...
 
 ---
+
 
 ## 📸 Screenshots
 
