@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Allows an app to post notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"
+    <uses-permission
+        android:name="android.permission.USE_FULL_SCREEN_INTENT"
         tools:ignore="FullScreenIntentPolicy" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -19,25 +18,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotificationTestTool"
         tools:targetApi="36">
-
+        <activity
+            android:name=".ui.ComposeMainActivity"
+            android:exported="false"
+            android:label="@string/title_activity_compose_main"
+            android:theme="@style/Theme.NotificationTestTool" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:launchMode="singleInstance"
-            android:showWhenLocked="true"
-            android:turnScreenOn="true"
+            android:screenOrientation="portrait"
             android:showOnLockScreen="true"
+            android:showWhenLocked="true"
             android:theme="@style/Theme.NotificationTestTool"
+            android:turnScreenOn="true"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

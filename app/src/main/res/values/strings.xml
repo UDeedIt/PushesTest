@@ -44,7 +44,7 @@
     <!-- Notification Content & Style -->
     <string name="lbl_use_big_text">Use BigText Style</string>
     <string name="lbl_show_subtext">Show SubText</string>
-<!--    <string name="lbl_show_content_info">Show ContentInfo (Legacy)</string>-->
+    <!--    <string name="lbl_show_content_info">Show ContentInfo (Legacy)</string>-->
     <string name="lbl_show_large_icon">Show Large Icon</string>
     <string name="lbl_show_big_picture">Show BigPicture Style</string>
     <string name="lbl_use_inbox_style">Use Inbox Style (Line list)</string>
@@ -81,7 +81,7 @@
         <item>High</item> <!-- Default -->
         <item>Medium</item>
         <item>Low</item>
-<!--        <item>None</item>-->
+        <!--        <item>None</item>-->
     </string-array>
 
     <string-array name="periods_array">
@@ -97,5 +97,6 @@
         <item>30 sec. delay</item>
         <item>60 sec. delay</item>
     </string-array>
+    <string name="title_activity_compose_main">ComposeMainActivity</string>
 
 </resources>
