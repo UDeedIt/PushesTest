@@ -2,6 +2,8 @@
 
     <string name="app_name" translatable="false">Pushes Test</string>
 
+    <string name="title_activity_compose_main" translatable="false">ComposeMainActivity</string>
+
     <string name="lbl_send_notification">Send Notification</string>
     <string name="lbl_stop_sending">Stop</string>
     <string name="lbl_close">Close</string>
@@ -97,6 +99,5 @@
         <item>30 sec. delay</item>
         <item>60 sec. delay</item>
     </string-array>
-    <string name="title_activity_compose_main">ComposeMainActivity</string>
 
 </resources>
