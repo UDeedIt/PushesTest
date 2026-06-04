@@ -18,13 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotificationTestTool"
         tools:targetApi="36">
+
         <activity
-            android:name=".ui.ComposeMainActivity"
+            android:name=".ui.MainActivity"
             android:exported="false"
             android:label="@string/title_activity_compose_main"
             android:theme="@style/Theme.NotificationTestTool" />
+
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.ComposeMainActivity"
             android:exported="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
@@ -33,12 +35,14 @@
             android:theme="@style/Theme.NotificationTestTool"
             android:turnScreenOn="true"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
