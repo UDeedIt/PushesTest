@@ -66,6 +66,8 @@ dependencies {
     implementation(libs.material)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.junit)

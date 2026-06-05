@@ -34,9 +34,12 @@ fun GreetingPreview() {
             title = "Preview Title",
             body = "Preview Body Content",
             isMocked = false,
+            isPeriodicActive = true,
             onTitleChange = {},
             onBodyChange = {},
-            onShuffleClick = {}
+            onShuffleClick = {},
+            onStopClick = {},
+            onSendClick = {}
         )
     }
 }
