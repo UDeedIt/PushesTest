@@ -9,8 +9,6 @@ const val GROUP_KEY = "pro.udeedit.devtools.pushestest.WORK_GROUP"
 const val DEFAULT_NOTIF_ID = 0
 const val SUMMARY_ID = 9999 // Fixed ID for the group header
 
-// Pushes Preferences
-
 // Behavior
 const val PREF_USE_MOCK_DATA = "pref_use_mock_data"
 const val PREF_OVERWRITE_NOTIFICATION = "pref_overwrite_notification"

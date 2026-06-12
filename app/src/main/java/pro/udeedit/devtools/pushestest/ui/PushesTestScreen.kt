@@ -1,7 +1,6 @@
 package pro.udeedit.devtools.pushestest.ui
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
@@ -43,27 +42,49 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import pro.udeedit.devtools.pushestest.R
 import pro.udeedit.devtools.pushestest.ui.theme.PushesTestTheme
+import pro.udeedit.devtools.pushestest.utils.AppSetting
 
 // The "Entry Point" Composable (Used in Activity)
 @Composable
 fun PushesTestScreen(viewModel: MainViewModel = viewModel()) {
-    // Collect states from ViewModel
-    val title by viewModel.notificationTitle
-    val body by viewModel.notificationBody
-    val isMocked by viewModel.isMockEnabled
-    val isPeriodicActive by viewModel.isPeriodicActive
+    // This is the version used in the Activity
+    // It collects the state from the real ViewModel
+    val uiState by viewModel.state
 
-    // Pass those values to a "Stateless" version
-    PushesTestContent(
-        title = title,
-        body = body,
-        isMocked = isMocked,
-        isPeriodicActive = isPeriodicActive,
+    PushesTestScreen(
+        state = uiState,
+        // Explicitly cast 'Any' to the specific types that ViewModel expects
+        onAction = { setting, value ->
+            when (value) {
+                is Boolean -> viewModel.set(setting, value)
+                is Int -> viewModel.set(setting, value)
+            }
+        },
         onTitleChange = { viewModel.onTitleChange(it) },
         onBodyChange = { viewModel.onBodyChange(it) },
         onShuffleClick = { viewModel.shuffleMockData() },
-        onStopClick = { viewModel.togglePeriodic(false) },
-        onSendClick = { viewModel.togglePeriodic(true) }
+        onPeriodicToggle = { viewModel.togglePeriodic(it) }
+    )
+}
+
+@Composable
+fun PushesTestScreen(
+    state: SettingsState,
+    onAction: (AppSetting, Any) -> Unit,
+    onTitleChange: (String) -> Unit,
+    onBodyChange: (String) -> Unit,
+    onShuffleClick: () -> Unit,
+    onPeriodicToggle: (Boolean) -> Unit
+) {
+    // This is the "Master Container" used by both the Activity and Preview
+    PushesTestContent(
+        state = state,
+        onTitleChange = onTitleChange,
+        onBodyChange = onBodyChange,
+        onShuffleClick = onShuffleClick,
+        onSendClick = { onPeriodicToggle(true) },
+        onStopClick = { onPeriodicToggle(false) },
+        onSettingsClick = { /* We will add this next */ }
     )
 }
 
@@ -72,63 +93,45 @@ fun PushesTestScreen(viewModel: MainViewModel = viewModel()) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PushesTestContent(
-    title: String,
-    body: String,
-    isMocked: Boolean,
-    isPeriodicActive: Boolean,
+    state: SettingsState, // Simple data class
     onTitleChange: (String) -> Unit,
     onBodyChange: (String) -> Unit,
     onShuffleClick: () -> Unit,
+    onSendClick: () -> Unit,
     onStopClick: () -> Unit,
-    onSendClick: () -> Unit
+    onSettingsClick: () -> Unit
 ) {
-
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.app_name)) },
-                actions = {
-                    IconButton(onClick = { /* TODO: Open Settings */ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.outline_notification_settings_24),
-                            contentDescription = "Settings",
-                            tint = MaterialTheme.colorScheme.primary
-                        )
+            Column {
+                TopAppBar(
+                    title = { Text(stringResource(R.string.app_name)) },
+                    actions = {
+                        IconButton(onClick = onSettingsClick) {
+                            Icon(painterResource(R.drawable.outline_notification_settings_24), "Settings")
+                        }
                     }
-                }
-            )
-
-            HorizontalDivider(
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant
-            )
+                )
+                HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.outlineVariant)
+            }
         }
-
-    ) { paddingValues ->
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.TopCenter
-        ) {
+    ) { padding ->
+        Box(modifier = Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
             Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .widthIn(max = 500.dp), // Tablet Centering
+                modifier = Modifier.padding(16.dp).widthIn(max = 500.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Title Input
+                // TITLE
                 OutlinedTextField(
-                    value = title,
-                    onValueChange = { onTitleChange(it) },
+                    value = state.notificationTitle, // Access via state
+                    onValueChange = onTitleChange,
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.hint_notification_title)) },
-                    readOnly = isMocked,
+                    readOnly = state.isMockEnabled,
                     trailingIcon = {
-                        if (isMocked) {
-                            IconButton(onClick = { onShuffleClick() }) {
-                                Icon(painterResource(R.drawable.rounded_settings_backup_restore_24), contentDescription = null)
+                        if (state.isMockEnabled) {
+                            IconButton(onClick = onShuffleClick) {
+                                Icon(painterResource(R.drawable.rounded_settings_backup_restore_24), null)
                             }
                         }
                     }
@@ -136,21 +139,30 @@ fun PushesTestContent(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Body Input
+                // BODY Input
                 OutlinedTextField(
-                    value = body,
-                    onValueChange = { onBodyChange(it) },
+                    value = state.notificationBody,
+                    onValueChange = onBodyChange,
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.hint_notification_body)) },
-                    readOnly = isMocked,
-                    minLines = 2
+                    readOnly = state.isMockEnabled,
+                    minLines = if (state.isMultiline) 6 else 2,
+                    maxLines = if (state.isMultiline) 6 else 2
                 )
+
 
                 Spacer(modifier = Modifier.height(24.dp))
 
+                // BUTTONS (With your vertical swag animation)
+//                AnimatedButtonSection(
+//                    isActive = state.isPeriodicActive,
+//                    onSend = onSendClick,
+//                    onStop = onStopClick
+//                )
+
                 // Wrap the buttons in AnimatedContent
                 AnimatedContent(
-                    targetState = isPeriodicActive,
+                    targetState = state.isPeriodicActive,
                     transitionSpec = {
                         val springSpec = spring<Float>(
                             dampingRatio = Spring.DampingRatioMediumBouncy,
@@ -172,7 +184,7 @@ fun PushesTestContent(
 //                            .using(SizeTransform(clip = false))
                     },
                     // Dynamic layering
-                    modifier = Modifier.zIndex(if (isPeriodicActive) 1f else 0f),
+                    modifier = Modifier.zIndex(if (state.isPeriodicActive) 1f else 0f),
                     label = "ButtonSwapAnimation"
 
                 ) { active ->
@@ -208,21 +220,22 @@ fun PushesTestContent(
     }
 }
 
+
+// PREVIEW
+
 // Preview uses simple data, no ViewModel needed!
 @Preview(showBackground = true)
 @Composable
-fun PushesTestPreview() {
+private fun PushesTestContentPreview() {
     PushesTestTheme {
         PushesTestContent(
-            title = "Mock Title",
-            body = "Mock Notification Body Content",
-            isMocked = false,
-            isPeriodicActive = true,
+            state = SettingsState(notificationTitle = "Preview Title", isMockEnabled = true),
             onTitleChange = {},
             onBodyChange = {},
             onShuffleClick = {},
+            onSendClick = {},
             onStopClick = {},
-            onSendClick = {}
+            onSettingsClick = {}
         )
     }
 }

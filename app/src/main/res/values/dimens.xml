@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- dimens for Compose Edition -->
+    <dimen name="settings_row_height">56dp</dimen>
+    <dimen name="info_icon_visual_size">14dp</dimen>
+    <dimen name="info_icon_ripple_radius">20dp</dimen>
+    <dimen name="superscript_offset_y">8dp</dimen>
+
+    <dimen name="dropdown_vertical_padding">8dp</dimen>
+    <dimen name="menu_max_height">300dp</dimen>
+
+    <dimen name="settings_group_spacing">16dp</dimen>
+
+
+
+
     <!-- Set to a very high value so it acts like "fill the available space" -->
     <dimen name="main_container_width">1000dp</dimen>
 
@@ -13,7 +27,7 @@
     <dimen name="margin_horizontal_normal">8dp</dimen>
     <dimen name="margin_horizontal_middle">16dp</dimen>
 
-    <dimen name="margin_vertical_small">42dp</dimen>
+    <dimen name="margin_vertical_small">4dp</dimen>
     <dimen name="margin_vertical_normal">8dp</dimen>
     <dimen name="margin_vertical_middle">16dp</dimen>
     <dimen name="margin_vertical_large">24dp</dimen>
@@ -30,10 +44,10 @@
     <dimen name="separator_height">1dp</dimen>
 
     <!-- Text Sizes -->
-    <item name="text_size_title" type="dimen">24sp</item>
-    <item name="text_size_category_header" type="dimen">17.5sp</item>
-    <item name="text_size_body_standard" type="dimen">16.5sp</item>
-    <item name="text_size_small_label" type="dimen">14sp</item>
+    <dimen name="text_size_title">24sp</dimen>
+    <dimen name="text_size_category_header">17.5sp</dimen>
+    <dimen name="text_size_body_standard">16.5sp</dimen>
+    <dimen name="text_size_small_label">14sp</dimen>
     <dimen name="text_size_button">16sp</dimen>
 
     <!-- Spacing & Lettering -->

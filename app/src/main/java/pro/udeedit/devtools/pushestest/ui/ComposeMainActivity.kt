@@ -24,22 +24,28 @@ class ComposeMainActivity : ComponentActivity() {
 }
 
 
-@Preview(showBackground = true)
+// PREVIEW
+
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES
+)
+@Preview(name = "Light Mode", showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun PushesTestPreview() {
     PushesTestTheme {
-        // We use the "Stateless" version for the Preview to avoid
-        // ViewModel initialization which fails because of CushyStorage
-        PushesTestContent(
-            title = "Preview Title",
-            body = "Preview Body Content",
-            isMocked = false,
-            isPeriodicActive = true,
+        PushesTestScreen(
+            state = SettingsState(
+                notificationTitle = "Pushes Test Preview",
+                isMockEnabled = true
+            ),
+            onAction = { _, _ -> },
             onTitleChange = {},
             onBodyChange = {},
             onShuffleClick = {},
-            onStopClick = {},
-            onSendClick = {}
+            onPeriodicToggle = {}
         )
     }
 }
