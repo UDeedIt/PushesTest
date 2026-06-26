@@ -3,45 +3,37 @@
 
     <!-- dimens for Compose Edition -->
     <dimen name="settings_row_height">56dp</dimen>
-    <dimen name="info_icon_visual_size">14dp</dimen>
+    <dimen name="info_icon_visual_size">20dp</dimen>
     <dimen name="info_icon_ripple_radius">20dp</dimen>
+    <dimen name="superscript_offset_x">4dp</dimen>
     <dimen name="superscript_offset_y">8dp</dimen>
+    <dimen name="superscript_ripple_radius">20dp</dimen>
+    <dimen name="info_icon_layout_size">40dp</dimen>
+    <dimen name="padding_normal">8dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="vertical_padding_normal">8dp</dimen>
 
-    <dimen name="dropdown_vertical_padding">8dp</dimen>
-    <dimen name="menu_max_height">300dp</dimen>
+    <dimen name="main_inputs_spacing">16dp</dimen>
+    <dimen name="main_inputs_spacing_2">24dp</dimen>
 
-    <dimen name="settings_group_spacing">16dp</dimen>
+    <dimen name="main_container_width_in">500dp</dimen>
 
-
-
+    <dimen name="animation_slide_distance">40dp</dimen>
 
     <!-- Set to a very high value so it acts like "fill the available space" -->
     <dimen name="main_container_width">1000dp</dimen>
 
-    <dimen name="edt_margin_hor">32dp</dimen>
-    <dimen name="edt_spacer_vert">16dp</dimen>
-    <dimen name="btn_margin_vert">24dp</dimen>
     <dimen name="btn_corner_radius">6dp</dimen>
 
-    <dimen name="margin_horizontal_small">4dp</dimen>
     <dimen name="margin_horizontal_normal">8dp</dimen>
     <dimen name="margin_horizontal_middle">16dp</dimen>
-
-    <dimen name="margin_vertical_small">4dp</dimen>
-    <dimen name="margin_vertical_normal">8dp</dimen>
     <dimen name="margin_vertical_middle">16dp</dimen>
     <dimen name="margin_vertical_large">24dp</dimen>
-    <dimen name="margin_vertical_huge">128dp</dimen>
 
-    <dimen name="switch_padding_start">4dp</dimen>
-
-    <dimen name="settings_icons_layout_size">48dp</dimen>
     <dimen name="settings_icons_size">36dp</dimen>
-    <dimen name="settings_icon_close_size">39dp</dimen>
 
     <!-- Standard touch target for interactive elements -->
     <dimen name="min_touch_target">54dp</dimen>
-    <dimen name="separator_height">1dp</dimen>
 
     <!-- Text Sizes -->
     <dimen name="text_size_title">24sp</dimen>
@@ -52,15 +44,11 @@
 
     <!-- Spacing & Lettering -->
     <!-- Note: will use as a float in styles -->
-    <item name="letter_spacing_header" translatable="false" type="string">0.05</item>
     <item name="margin_category_bottom" type="dimen">4dp</item>
     <item name="margin_label_top" type="dimen">8dp</item>
 
     <!-- View Specific -->
-    <dimen name="drag_view_width">40dp</dimen>
-    <dimen name="drag_view_height">4dp</dimen>
-    <dimen name="button_height">64dp</dimen>
-    <dimen name="icon_i_margin_top">-12dp</dimen>
+    <dimen name="button_height">56dp</dimen>
 
     <!-- Dialog Specific Dimensions -->
     <dimen name="dialog_padding_horizontal">24dp</dimen>
@@ -70,9 +58,5 @@
     <dimen name="dialog_corner_radius">28dp</dimen>
     <dimen name="dialog_button_min_width">120dp</dimen>
     <dimen name="dialog_button_corner_radius">16dp</dimen>
-
-    <!-- Spacing -->
-    <dimen name="margin_12">12dp</dimen>
-    <dimen name="margin_20">20dp</dimen>
 
 </resources>

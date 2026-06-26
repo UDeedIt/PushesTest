@@ -29,6 +29,10 @@
     <string name="snack_periodic_stopped">Периодические уведомления остановлены</string>
     <string name="warn_allow_full_screen_intent">Пожалуйста, разрешите полноэкранные намерения в настройках, чтобы протестировать эту функцию.</string>
     <string name="warn_grant_full_screen">Пожалуйста, разрешите полноэкранные намерения в настройках, чтобы протестировать эту функцию.</string>
+    <string name="warn_overwrite_disabled">Перезапись выключена: для полноэкранного режима нужны уникальные ID.</string>
+
+    <string name="info">Информация</string>
+    <string name="msg_battery_unrestricted_instruction">Для соблюдения правил Play Store, пожалуйста, найдите Pushes Test в списке и выберите режим «Без ограничений».</string>
 
     <!-- Permissions -->
     <string name="permission_is_already_allowed">Разрешение уже предоставлено пользователем</string>

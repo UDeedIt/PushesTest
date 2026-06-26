@@ -12,12 +12,21 @@ import androidx.compose.ui.unit.em
 import pro.udeedit.devtools.pushestest.R
 import pro.udeedit.devtools.pushestest.ui.theme.PushesTestTheme
 
+/**
+ * A specialized structural header used to categorize settings groups.
+ *
+ * Features:
+ * - Automatically transforms text to uppercase for a consistent sectional look.
+ * - Utilizes branded primary colors and standardized vertical margins from resources.
+ *
+ * @param text The localized label for the category (e.g., "BEHAVIOR", "TIMING").
+ * @param modifier Standard Compose modifier for external layout adjustments.
+ */
 @Composable
 fun CategoryHeader(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text.uppercase(),
         style = MaterialTheme.typography.titleMedium.copy(
-            // Use 0.05.em to match your 0.05 float in XML
             letterSpacing = 0.05.em
         ),
         color = MaterialTheme.colorScheme.primary,
@@ -30,12 +39,18 @@ fun CategoryHeader(text: String, modifier: Modifier = Modifier) {
     )
 }
 
+// --- PREVIEWS ---
 
-// PREVIEWS
-
+/**
+ * Visualizes the category header in both Light and Dark themes to ensure
+ * primary color contrast and letter spacing are rendered correctly.
+ */
 @Preview(name = "Light Mode", showBackground = true)
-@Preview(name = "Dark Mode", showBackground = true, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
-@Preview(showBackground = true)
+@Preview(
+    name = "Dark Mode",
+    showBackground = true,
+    uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 private fun CategoryHeaderPreview() {
     PushesTestTheme {

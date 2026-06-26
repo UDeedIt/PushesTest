@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Allows an app to post notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission
-        android:name="android.permission.USE_FULL_SCREEN_INTENT"
+
+    <!-- waking app phone when using FSI (Full Screen Intent) notifications -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"
         tools:ignore="FullScreenIntentPolicy" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
+
 
     <application
         android:name=".PtApp"
@@ -20,20 +27,14 @@
         tools:targetApi="36">
 
         <activity
-            android:name=".ui.MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_compose_main"
-            android:theme="@style/Theme.NotificationTestTool" />
-
-        <activity
             android:name=".ui.ComposeMainActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
+            android:theme="@style/Theme.NotificationTestTool"
             android:screenOrientation="portrait"
             android:showOnLockScreen="true"
             android:showWhenLocked="true"
-            android:theme="@style/Theme.NotificationTestTool"
             android:turnScreenOn="true"
+            android:excludeFromRecents="false"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
 
             <intent-filter>

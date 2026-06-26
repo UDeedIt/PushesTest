@@ -32,7 +32,10 @@
     <string name="snack_periodic_stopped">Periodic testing stopped</string>
     <string name="warn_allow_full_screen_intent">Please allow Full-Screen Intents in settings to test this feature.</string>
     <string name="warn_grant_full_screen">Please allow Full-Screen Intents in settings to test this feature.</string>
+    <string name="warn_overwrite_disabled">Overwrite disabled: Unique IDs are required for Full-Screen Intent.</string>
 
+    <string name="info">Info</string>
+    <string name="msg_battery_unrestricted_instruction">To comply with Play Store policies, please manually find Pushes Test in the list and set it to \"Unrestricted\".</string>
 
     <!-- Permissions -->
     <string name="permission_is_already_allowed">Permission is already allowed by user</string>
@@ -70,7 +73,6 @@
     <string name="header_visual_style">Visual Style</string>
     <string name="header_sensory">Sensory</string>
     <string name="header_system_config">System Config</string>
-
 
     <string-array name="visibility_array">
         <item>Public (Show all content)</item>

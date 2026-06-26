@@ -1,12 +1,42 @@
 package pro.udeedit.devtools.pushestest.utils
 
+/**
+ * Data container for a simulated notification payload.
+ *
+ * @property title The primary heading of the notification.
+ * @property body The main descriptive content.
+ * @property summary Technical metadata used for group headers or subtext areas.
+ */
 data class MockNotification(
     val title: String,
     val body: String,
     val summary: String
 )
 
+/**
+ * Utility singleton providing a comprehensive library of mock data for testing purposes.
+ *
+ * This object contains two distinct datasets:
+ * 1. [mockList]: Standard length notifications categorized by real-world use cases
+ *    (System, Messaging, Fintech, etc.) to verify basic layout and icon placement.
+ * 2. [bigTextMockList]: Long-form payloads specifically designed to test
+ *    [androidx.core.app.NotificationCompat.BigTextStyle] expansion and multi-line rendering.
+ */
 object PtMockDataUtils {
+
+    /**
+     * Selects a random notification from the standard dataset.
+     */
+    fun getRandomMockData(): MockNotification {
+        return mockList.random()
+    }
+
+    /**
+     * Selects a random notification from the long-form (Big Text) dataset.
+     */
+    fun getRandomBigMockData(): MockNotification {
+        return bigTextMockList.random()
+    }
 
     private val mockList = listOf(
         // SYSTEM & DEV
@@ -82,7 +112,10 @@ object PtMockDataUtils {
         MockNotification("Wi-Fi", "Connected to 'Airport_Free_Wifi'.", "Network")
     )
 
-    // Big Text
+    /**
+     * Data specifically curated for BigTextStyle testing.
+     * Contains newlines and long paragraphs to verify expansion behavior.
+     */
     private val bigTextMockList = listOf(
         MockNotification(
             "System Logs Analysis",
@@ -109,21 +142,5 @@ object PtMockDataUtils {
             "An unusual login attempt was blocked from an unrecognized IP address (192.168.1.254). The attempt originated from a device running Linux in Dublin, Ireland. If this wasn't you, please reset your administrative password immediately and enable two-factor authentication for the production cluster.",
             "Security"
         )
-        // Note: You can duplicate these templates with different numbers/names to reach 100+ variations
     )
-
-
-    // Total variations: Over 60. You can easily duplicate these
-    // or slightly vary them to reach 100+ very quickly.
-
-    fun getRandomMockData(): MockNotification {
-        return mockList.random()
-    }
-
-    // New function for Big Text
-    fun getRandomBigMockData(): MockNotification {
-        return bigTextMockList.random()
-    }
-
 }
-
