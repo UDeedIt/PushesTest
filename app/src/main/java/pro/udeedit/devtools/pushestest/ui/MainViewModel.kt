@@ -425,38 +425,72 @@ class MainViewModel @Inject constructor(
 
     /**
      * Restores all application settings to their original factory defaults.
+     *
+     * This process ensures a clean state by:
+     * 1. Overwriting all keys in [CushyStorage] with [DEF_] constants.
+     * 2. Emitting a fresh [SettingsState] object to the UI layer.
      */
     fun resetToDefaults() {
-        set(AppSetting.MOCK_DATA, DEF_USE_MOCK_DATA)
-        set(AppSetting.OVERWRITE, DEF_OVERWRITE_NOTIFICATION)
-        set(AppSetting.PERSISTENT, DEF_IS_PERSISTENT)
-        set(AppSetting.MULTILINE, DEF_MULTILINE_NOTIFICATION)
-        set(AppSetting.FULL_SCREEN, DEF_FULL_SCREEN)
-        set(AppSetting.GROUPED, DEF_GROUPED_NOTIFICATIONS)
-        set(AppSetting.PERIODS, DEF_PERIODS_POS)
-        set(AppSetting.DELAYS, DEF_DELAYS_POS)
+        // Reset Persistent Storage
+        saveBool(PREF_USE_MOCK_DATA, DEF_USE_MOCK_DATA)
+        saveBool(PREF_OVERWRITE_NOTIFICATION, DEF_OVERWRITE_NOTIFICATION)
+        saveBool(PREF_IS_PERSISTENT, DEF_IS_PERSISTENT)
+        saveBool(PREF_MULTILINE_NOTIFICATION, DEF_MULTILINE_NOTIFICATION)
+        saveBool(PREF_FULL_SCREEN, DEF_FULL_SCREEN)
+        saveBool(PREF_GROUPED_NOTIFICATIONS, DEF_GROUPED_NOTIFICATIONS)
 
-        clearVisualStyles()
+        saveInt(PREF_PERIODS_POS, DEF_PERIODS_POS)
+        saveInt(PREF_DELAYS_POS, DEF_DELAYS_POS)
 
-        set(AppSetting.ACTIONS, DEF_INCLUDE_ACTIONS)
-        set(AppSetting.SUBTEXT, DEF_SHOW_SUBTEXT)
-        set(AppSetting.LARGE_ICON, DEF_SHOW_LARGE_ICON)
-        set(AppSetting.CHRONOMETER, DEF_CHRONOMETER)
-        set(AppSetting.VIBRATION, DEF_VIBRATION_ON)
-        set(AppSetting.SOUND, DEF_ENABLE_SOUND)
-        set(AppSetting.IMPORTANCE, DEF_IMPORTANCE_POS)
-        set(AppSetting.VISIBILITY, DEF_VISIBILITY_POS)
+        saveBool(PREF_USE_BIG_TEXT, DEF_USE_BIG_TEXT)
+        saveBool(PREF_SHOW_BIG_PICTURE, DEF_SHOW_BIG_PICTURE)
+        saveBool(PREF_USE_INBOX_STYLE, DEF_USE_INBOX_STYLE)
+        saveBool(PREF_INCLUDE_ACTIONS, DEF_INCLUDE_ACTIONS)
+        saveBool(PREF_SHOW_SUBTEXT, DEF_SHOW_SUBTEXT)
+        saveBool(PREF_SHOW_LARGE_ICON, DEF_SHOW_LARGE_ICON)
+        saveBool(PREF_CHRONOMETER, DEF_CHRONOMETER)
 
-        // Reset UI snapshot and clear mock generated text
-        _state.value = loadInitialState().copy(
+        saveBool(PREF_VIBRATION_ON, DEF_VIBRATION_ON)
+        saveBool(PREF_ENABLE_SOUND, DEF_ENABLE_SOUND)
+//        saveBool(PREF_ENABLE_LED, DEF_ENABLE_LED)
+
+        saveInt(PREF_IMPORTANCE_POS, DEF_IMPORTANCE_POS)
+        saveInt(PREF_VISIBILITY_POS, DEF_VISIBILITY_POS)
+
+        // Reset UI State Object
+        // We instantiate a new SettingsState which uses the DEF_ constants
+        // as its internal default values.
+        _state.value = SettingsState(
             notificationTitle = "",
-            notificationBody = ""
+            notificationBody = "",
+            isMockEnabled = DEF_USE_MOCK_DATA,
+            isOverwrite = DEF_OVERWRITE_NOTIFICATION,
+            isPersistent = DEF_IS_PERSISTENT,
+            isMultiline = DEF_MULTILINE_NOTIFICATION,
+            isFullScreen = DEF_FULL_SCREEN,
+            isGrouped = DEF_GROUPED_NOTIFICATIONS,
+            isPeriodicActive = DEF_IS_PERIODIC_ACTIVE,
+            periodsPos = DEF_PERIODS_POS,
+            delaysPos = DEF_DELAYS_POS,
+            useBigText = DEF_USE_BIG_TEXT,
+            showBigPicture = DEF_SHOW_BIG_PICTURE,
+            useInboxStyle = DEF_USE_INBOX_STYLE,
+            includeActions = DEF_INCLUDE_ACTIONS,
+            showSubtext = DEF_SHOW_SUBTEXT,
+            showLargeIcon = DEF_SHOW_LARGE_ICON,
+            useChronometer = DEF_CHRONOMETER,
+            vibrationOn = DEF_VIBRATION_ON,
+            enableSound = DEF_ENABLE_SOUND,
+            importancePos = DEF_IMPORTANCE_POS,
+            visibilityPos = DEF_VISIBILITY_POS
         )
 
+        // Content Synchronization
         if (DEF_USE_MOCK_DATA) {
             shuffleMockData()
         }
     }
+
 
     // NOTIFICATION ORCHESTRATION
 
