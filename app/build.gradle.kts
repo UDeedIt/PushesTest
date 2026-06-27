@@ -14,11 +14,12 @@ android {
         applicationId = "pro.udeedit.devtools.pushestest"
         minSdk = 24
         targetSdk = 36
-        versionCode = 5
+        versionCode = 6
         versionName = "2.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        // vc6, 2.0.0 - ready transferred to compose version
         // vc5, 2.0.0 - feat(PT-35): complete migration to Jetpack Compose and MVI architecture
 //        - Migrated entire UI from XML layouts to Jetpack Compose with Material 3.
 //        - Implemented MVI (Model-View-Intent) pattern with a centralized SettingsState.
