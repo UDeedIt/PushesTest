@@ -11,10 +11,12 @@ android {
         applicationId = "pro.udeedit.devtools.pushestest"
         minSdk = 24
         targetSdk = 36
-        versionCode = 4
+        versionCode = 5
         versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // vc5, 1.2.0 - finalized XML version of Pushes Test. Will not be updated anymore.
 
         // vc4, 1.2.0 - first release ready cleanup
         // vc3, 1.1.1 - add CushyStorage module
