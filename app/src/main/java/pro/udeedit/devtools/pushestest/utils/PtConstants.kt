@@ -1,15 +1,31 @@
 package pro.udeedit.devtools.pushestest.utils
 
-// permissions
+/**
+ * Centralized constant definitions for the Pushes Test application.
+ *
+ * This file maintains all global identifiers, shared preference keys, and
+ * factory default values. Centralizing these ensures consistency between
+ * the [pro.udeedit.devtools.cushystorage] persistence layer and the UI state.
+ */
+
+// SYSTEM IDENTIFIERS
+
+/** Request code used for runtime permission dialogues. */
 const val REQUEST_PERMISSION_CODE = 100
 
-// in-app notifications
+/** Base ID for the application's notification channels. */
 const val CHANNEL_ID = "pro.udeedit.devtools.pushestest.channel_id"
-const val GROUP_KEY = "pro.udeedit.devtools.pushestest.WORK_GROUP"
-const val DEFAULT_NOTIF_ID = 0
-const val SUMMARY_ID = 9999 // Fixed ID for the group header
 
-// Pushes Preferences
+/** Shared key for bundling notifications into logical groups. */
+const val GROUP_KEY = "pro.udeedit.devtools.pushestest.WORK_GROUP"
+
+/** The default ID used when 'Overwrite' mode is enabled. */
+const val DEFAULT_NOTIF_ID = 0
+
+/** Fixed identifier for the group summary (header) notification. */
+const val SUMMARY_ID = 9999
+
+// SHARED PREFERENCE KEYS (Persistence)
 
 // Behavior
 const val PREF_USE_MOCK_DATA = "pref_use_mock_data"
@@ -35,19 +51,28 @@ const val PREF_CHRONOMETER = "pref_chronometer"
 // Sensory
 const val PREF_VIBRATION_ON = "pref_vibration"
 const val PREF_ENABLE_SOUND = "pref_enable_sound"
-const val PREF_ENABLE_LED = "pref_enable_led"
+//const val PREF_ENABLE_LED = "pref_enable_led"
 
 // System config
 const val PREF_IMPORTANCE_POS = "pref_importance_pos"
 const val PREF_VISIBILITY_POS = "pref_visibility_pos"
 
-// Defaults
+// FACTORY DEFAULT VALUES
+
+/** Default state for mock data generation. */
 const val DEF_USE_MOCK_DATA = false
+
+/** Default behavior for notification ID management. */
 const val DEF_OVERWRITE_NOTIFICATION = true
+
 const val DEF_IS_PERSISTENT = false
 const val DEF_MULTILINE_NOTIFICATION = false
 const val DEF_FULL_SCREEN = false
 const val DEF_GROUPED_NOTIFICATIONS = false
+
+/** Baseline state for the periodic loop (Inactive). */
+const val DEF_IS_PERIODIC_ACTIVE = false
+
 const val DEF_PERIODS_POS = 0
 const val DEF_DELAYS_POS = 0
 const val DEF_USE_BIG_TEXT = false
@@ -57,8 +82,14 @@ const val DEF_INCLUDE_ACTIONS = false
 const val DEF_SHOW_SUBTEXT = false
 const val DEF_SHOW_LARGE_ICON = false
 const val DEF_CHRONOMETER = false
+
+/** Standard sensory settings: Haptics and Audio are enabled by default. */
 const val DEF_VIBRATION_ON = true
 const val DEF_ENABLE_SOUND = true
-const val DEF_ENABLE_LED = false
+//const val DEF_ENABLE_LED = false
+
+/** Default importance set to 'High' (Index 1). */
 const val DEF_IMPORTANCE_POS = 1
+
+/** Default lock-screen visibility set to 'Public' (Index 0). */
 const val DEF_VISIBILITY_POS = 0

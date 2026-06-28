@@ -4,10 +4,16 @@
 
     <!-- Allows an app to post notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- waking app phone when using FSI (Full Screen Intent) notifications -->
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"
         tools:ignore="FullScreenIntentPolicy" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
+
 
     <application
         android:name=".PtApp"
@@ -21,14 +27,14 @@
         tools:targetApi="36">
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.ComposeMainActivity"
             android:exported="true"
+            android:theme="@style/Theme.NotificationTestTool"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"
+            android:showOnLockScreen="true"
             android:showWhenLocked="true"
             android:turnScreenOn="true"
-            android:showOnLockScreen="true"
-            android:theme="@style/Theme.NotificationTestTool"
+            android:excludeFromRecents="false"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
 
             <intent-filter>

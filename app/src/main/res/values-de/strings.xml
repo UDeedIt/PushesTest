@@ -29,6 +29,10 @@
     <string name="snack_periodic_stopped">Periodischer Test gestoppt</string>
     <string name="warn_allow_full_screen_intent">Bitte erlauben Sie Vollbild-Intents in den Einstellungen, um diese Funktion zu testen.</string>
     <string name="warn_grant_full_screen">Bitte erlauben Sie Vollbild-Intents in den Einstellungen, um diese Funktion zu testen.</string>
+    <string name="warn_overwrite_disabled">Überschreiben deaktiviert: Eindeutige IDs sind für Vollbild-Intent erforderlich.</string>
+
+    <string name="info">Info</string>
+    <string name="msg_battery_unrestricted_instruction">Um den Richtlinien des Play Stores zu entsprechen, suchen Sie bitte Pushes Test in der Liste und setzen Sie ihn auf „Nicht eingeschränkt“.</string>
 
     <!-- Permissions -->
     <string name="permission_is_already_allowed">Berechtigung ist bereits vom Benutzer erlaubt</string>
