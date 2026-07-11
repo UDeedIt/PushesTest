@@ -1,4 +1,4 @@
-name: SimpleGpsTracker – Android CI
+name: Pushes Test – CI
 
 on:
   push:
