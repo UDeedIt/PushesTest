@@ -8,9 +8,11 @@
 /.idea/navEditor.xml
 /.idea/vcs.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
+
+# Local IDE/System files
 local.properties
+.DS_Store
