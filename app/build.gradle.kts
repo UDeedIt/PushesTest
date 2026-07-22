@@ -105,6 +105,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
-    implementation("pro.udeedit.devtools:cushystorage:1.0.2")
+    implementation("pro.udeedit.devtools:cushystorage:1.0.3")
     implementation(project(":anarchist"))
 }
