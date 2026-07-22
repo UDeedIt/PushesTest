@@ -14,11 +14,12 @@ android {
         applicationId = "pro.udeedit.devtools.pushestest"
         minSdk = 24
         targetSdk = 36
-        versionCode = 7
-        versionName = "2.1.0"
+        versionCode = 8
+        versionName = "2.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        // vc8, 2.1.1 - uses :cushystorage 1.0.3
         // vc7, 2.1.0 - replace cushystorage module with maven dependency
         // vc6, 2.0.0 - ready transferred to compose version
         // vc5, 2.0.0 - feat(PT-35): complete migration to Jetpack Compose and MVI architecture
