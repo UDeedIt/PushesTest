@@ -75,7 +75,6 @@ android {
 }
 
 dependencies {
-
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
@@ -108,5 +107,4 @@ dependencies {
 
     implementation("pro.udeedit.devtools:cushystorage:1.0.2")
     implementation(project(":anarchist"))
-//    implementation(project(":cushystorage"))
 }

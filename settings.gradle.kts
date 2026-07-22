@@ -23,4 +23,3 @@ dependencyResolutionManagement {
 rootProject.name = "PushesTest"
 include(":app")
 include(":anarchist")
-include(":cushystorage")
