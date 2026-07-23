@@ -66,7 +66,8 @@
 - **Clean Architecture:** Logic encapsulated in Hilt-injected Use Cases and MVI ViewModels.
 - **Modular Design:** Powered by internal libraries:
     - `:anarchist` — Advanced runtime permission management.
-    - `:cushystorage` — High-performance data persistence.
+-**Dependencies:** Replaced ":cushystorage" library from internal module to Maven dependency:
+    - `pro.udeedit.devtools:cushystorage:1.0.3`
 
 ---
 

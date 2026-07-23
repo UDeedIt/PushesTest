@@ -51,6 +51,12 @@ class MainViewModelTest {
 
         // Mock Application and Resources
         mockApplication = mock(Application::class.java)
+
+        // Ensure applicationContext returns the mock itself
+        `when`(mockApplication.applicationContext).thenReturn(mockApplication)
+        // Ensure getPackageName returns a valid string (used for SharedPreferences naming)
+        `when`(mockApplication.packageName).thenReturn("pro.udeedit.devtools.pushestest")
+
         val mockResources = mock(android.content.res.Resources::class.java)
         `when`(mockApplication.resources).thenReturn(mockResources)
         `when`(mockResources.getIntArray(anyInt())).thenReturn(intArrayOf(0, 10000, 30000, 60000))
